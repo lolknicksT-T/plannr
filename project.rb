@@ -68,3 +68,8 @@ Plan has subscribers
 -------------------------------------------
 
 //// Routes ////
+
+/login
+/register
+root
+/past_plans
