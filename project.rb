@@ -1,6 +1,8 @@
 
 //// Migrations ////
 
+rails generate migration AddPartNumberToProducts part_number:string
+
 User
 t.string username
 t.string password_digest
@@ -44,7 +46,7 @@ create
 
 PlansController
 index = users/:user_id/plans
-show = plans/:plan_id
+show = users/:user_id/plans/:plan_id
 create
 update
 # destroy
@@ -64,3 +66,5 @@ create
 Plan has subscribers
 
 -------------------------------------------
+
+//// Routes ////
