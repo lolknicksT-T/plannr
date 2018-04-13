@@ -8,16 +8,26 @@ import PlansContainer from './containers/PlansContainer'
 
 
 class App extends Component {
+  state = {
+    user_id: ""
+  }
+
+  setUser = (id) => {
+    this.setState({
+      user_id: id
+    }, () => console.log(this.state))
+  }
+
   render() {
     return (
 
       <BrowserRouter>
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-        </header>
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+          </header>
 
-        <Navbar />
+          <Navbar setUser={this.setUser}/>
         <PlansContainer />
 
       <Switch>

@@ -11,10 +11,7 @@ module Api::V1
     # end
 
     def create
-
-      # @user = User.new(username: params[:user][:username], password: params[:user][:password])
       @user = User.new(user_params)
-      byebug
       if @user.save
         render json: { id: @user.id, username: @user.username}
       else

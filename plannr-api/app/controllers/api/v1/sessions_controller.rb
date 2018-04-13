@@ -12,13 +12,8 @@ module Api::V1
     # end
 
     def create
-
-
       @user = User.find_by(username: params[:session][:username])
-      byebug
-
-      if @user && @user.authenticate(params["password"])
-
+      if @user && @user.authenticate(params[:session][:password])
         render json: { id: @user.id, username: @user.username }
       else
         render json: { errors: "invalid credentials"}, :status => :unprocessable_entity
@@ -31,9 +26,9 @@ module Api::V1
 
     private
 
-    def sessions_params
-      params.require(:sessions).permit(:username, :password)
-    end
+    # def sessions_params
+    #   params.require(:sessions).permit(:username, :password)
+    # end
 
 
 

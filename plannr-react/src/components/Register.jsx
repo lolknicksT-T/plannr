@@ -8,7 +8,6 @@ export default class Register extends React.Component {
     }
   }
 
-
   handleChange = (e) => {
     this.setState({
       user: {
@@ -19,18 +18,21 @@ export default class Register extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
-
-    fetch('http://localhost:3000/api/v1/users', {
+    const options = {
       method: "POST",
       headers: {
         "content-type": "application/json",
         "accept": "application/json"
       },
       body: JSON.stringify(this.state)
+    }
+    fetch('http://localhost:3000/api/v1/users', options)
+    .then(res => res.json())
+    .then(json => this.setUser(json))
+  }
 
-
-    })
+  setUser = (json) => {
+    this.props.setUser(json.id)
   }
 
   render() {

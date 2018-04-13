@@ -6,7 +6,6 @@ export default class Login extends React.Component {
       username: "",
       password: ""
     }
-
   }
 
   handleChange = (e) => {
@@ -19,8 +18,7 @@ export default class Login extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
-    let options = {
+    const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +27,12 @@ export default class Login extends React.Component {
       body: JSON.stringify(this.state)
     }
     fetch('http://localhost:3000/api/v1/sessions', options)
+    .then(res => res.json())
+    .then(json => this.setUser(json))
+  }
 
+  setUser = (json) => {
+    this.props.setUser(json.id)
   }
 
   render() {

@@ -22,8 +22,8 @@ export default class Navbar extends React.Component {
         <Link onClick={this.handleClick} to='#'>Login</Link>
         <Link onClick={this.handleClick} to='#'>Register</Link>
 
-        {this.state.toggled === "Login" ? <Login /> : null}
-        {this.state.toggled === "Register" ? <Register /> : null}
+        {this.state.toggled === "Login" ? <Login setUser={this.props.setUser} /> : null}
+        {this.state.toggled === "Register" ? <Register setUser={this.props.setUser} /> : null}
       </div>
     )
   }
