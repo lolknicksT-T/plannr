@@ -33,7 +33,7 @@ export default class PlansContainer extends React.Component {
         {<MyPlans myPlans={this.state.myPlans} />}
         <br/>
         All Plans:
-        {<AllPlans myPlans={this.state.myPlans} allPlans={this.state.allPlans} />}
+        {<AllPlans myPlans={this.state.myPlans} allPlans={this.state.allPlans} refetchMyPlans={this.fetchMyPlans}/>}
       </div>
     )
   }

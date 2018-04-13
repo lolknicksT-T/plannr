@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get '/plans', to: 'plans#index'
       get '/plans/:id', to: 'plans#show'
+      resources :user_plans, only: [:create]
       resources :sessions, only: [:create, :destroy]
       resources :conversations, only: [:show, :create] do
         resources :messages, only: [:index, :create]
