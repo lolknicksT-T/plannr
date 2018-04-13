@@ -2,20 +2,34 @@ import React from 'react'
 
 export default class Login extends React.Component {
   state = {
-    username: "",
-    password: ""
+    session: {
+      username: "",
+      password: ""
+    }
+
   }
 
   handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      session: {
+       ...this.state.session, [e.target.name]: e.target.value
+      }
     })
   }
 
   handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(e.target.children)
-    debugger
+    e.preventDefault();
+    console.log(this.state);
+    let options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(this.state)
+    }
+    fetch('http://localhost:3000/api/v1/sessions', options)
+
   }
 
   render() {

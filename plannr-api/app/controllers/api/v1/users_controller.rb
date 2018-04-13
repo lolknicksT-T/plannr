@@ -11,9 +11,11 @@ module Api::V1
     # end
 
     def create
+
+      # @user = User.new(username: params[:user][:username], password: params[:user][:password])
       @user = User.new(user_params)
+      byebug
       if @user.save
-        byebug
         render json: { id: @user.id, username: @user.username}
       else
         render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
@@ -23,7 +25,7 @@ module Api::V1
     private
 
     def user_params
-      params.require(:user).permit(:username, :password, :password_confirmation)
+      params.require(:user).permit(:username, :password)
     end
 
 

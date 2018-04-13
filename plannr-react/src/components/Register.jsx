@@ -2,25 +2,34 @@ import React from 'react'
 
 export default class Register extends React.Component {
   state = {
-    username: "",
-    password: ""
+    user: {
+      username: "",
+      password: ""
+    }
   }
+
 
   handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      user: {
+       ...this.state.user, [e.target.name]: e.target.value
+      }
     })
   }
 
   handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    console.log(this.state);
+
     fetch('http://localhost:3000/api/v1/users', {
       method: "POST",
-      body: JSON.stringify(this.state),
-      header: {
+      headers: {
         "content-type": "application/json",
-        accepts: "application/json"
-      }
+        "accept": "application/json"
+      },
+      body: JSON.stringify(this.state)
+
+
     })
   }
 

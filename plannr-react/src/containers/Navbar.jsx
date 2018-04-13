@@ -16,6 +16,7 @@ export default class Navbar extends React.Component {
   }
 
   render() {
+    console.log(this.state.toggled);
     return (
       <div>
         <Link onClick={this.handleClick} to='#'>Login</Link>
