@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      get '/plans', to: 'plans#index'
+      resources :user_plans, only: [:index, :show]
       resources :conversations, only: [:show, :create] do
         resources :messages, only: [:index, :create]
       end
       resources :users, only: [:create] do
-        resources :plans, only: [:index, :show, :create, :update]
+        resources :plans, only: [:show, :create, :update]
+        get '/my_plans', to: 'plans#my_plans'
         get '/past_plans', to: 'plans#past_plans'
       end
     end

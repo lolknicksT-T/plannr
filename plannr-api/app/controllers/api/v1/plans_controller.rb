@@ -14,13 +14,17 @@ module Api::V1
     def update
     end
 
+    def my_plans
+    end
+
     def past_plans
     end
 
     private
 
     def plans_params
-    end 
+      params.require(:plan).permit(:title, :user)
+    end
 
 
   end

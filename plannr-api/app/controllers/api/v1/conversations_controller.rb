@@ -9,7 +9,8 @@ module Api::V1
 
     private
 
-    def post_params
+    def conversation_params
+      params.require(:conversation).permit(:title, :plan)
     end
 
   end

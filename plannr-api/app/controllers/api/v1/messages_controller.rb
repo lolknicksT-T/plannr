@@ -7,7 +7,8 @@ module Api::V1
     private
 
     def messages_params
-    end 
+      params.require(:conversation).permit(:content, :conversation)
+    end
 
 
   end

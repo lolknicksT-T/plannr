@@ -73,3 +73,7 @@ Plan has subscribers
 /register
 root
 /past_plans
+
+-------------------------------------------
+
+if user_plan exists, admin: false
