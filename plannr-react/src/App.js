@@ -5,17 +5,32 @@ import './App.css';
 
 import Navbar from './containers/Navbar'
 import PlansContainer from './containers/PlansContainer'
-
+import MyPlans from './containers/MyPlans'
 
 class App extends Component {
   state = {
-    user_id: ""
+    user_id: null
   }
 
-  setUser = (id) => {
+  componentDidMount() {
+    if (localStorage.user) {
+      this.setState({ user_id: JSON.parse(localStorage.user)}, () => console.log(this.state))
+    }
+  }
+
+  setUser = (json) => {
     this.setState({
-      user_id: id
+      user_id: json.id
     }, () => console.log(this.state))
+    localStorage.user = JSON.stringify(json.id)
+    console.log(localStorage);
+  }
+
+  logout = ( /* history */ ) => {
+    localStorage.user = ""
+    this.setState({
+      user_id: null
+    }, () => console.log(this.state)/*, () => history.push("/") */)
   }
 
   render() {
@@ -27,10 +42,9 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
           </header>
 
-          <Navbar setUser={this.setUser}/>
-        <PlansContainer />
-
-      <Switch>
+          {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <MyPlans user={this.state.user} logout={this.logout} /* history={renderProps.history */ />}
+          <PlansContainer />
+          <Switch>
 
         <Route exact path='/duh' component ={ PlansContainer } />
 

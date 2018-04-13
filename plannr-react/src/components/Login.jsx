@@ -4,7 +4,8 @@ export default class Login extends React.Component {
   state = {
     session: {
       username: "",
-      password: ""
+      password: "",
+      errors: []
     }
   }
 
@@ -28,11 +29,19 @@ export default class Login extends React.Component {
     }
     fetch('http://localhost:3000/api/v1/sessions', options)
     .then(res => res.json())
-    .then(json => this.setUser(json))
+    .then(json => {
+      if (json.errors) {
+        this.setState({ errors: json.errors })
+      } else {
+        this.setState({ errors: [] })
+        this.setUser(json)
+        // this.props.history.push("/")
+      }
+    })
   }
 
   setUser = (json) => {
-    this.props.setUser(json.id)
+    this.props.setUser(json)
   }
 
   render() {
