@@ -77,3 +77,6 @@ root
 -------------------------------------------
 
 if user_plan exists, admin: false
+
+login POST to sessions create
+register POST to users create
