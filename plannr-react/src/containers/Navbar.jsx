@@ -2,6 +2,7 @@ import React from 'react'
 
 import Login from '../components/Login'
 import Register from '../components/Register'
+import { Link } from 'react-router-dom'
 
 export default class Navbar extends React.Component {
   state = {
@@ -17,8 +18,8 @@ export default class Navbar extends React.Component {
   render() {
     return (
       <div>
-        <a href="#" onClick={this.handleClick}>Login</a>
-        <a href="#" onClick={this.handleClick}>Register</a>
+        <Link onClick={this.handleClick} to='#'>Login</Link>
+        <Link onClick={this.handleClick} to='#'>Register</Link>
 
         {this.state.toggled === "Login" ? <Login /> : null}
         {this.state.toggled === "Register" ? <Register /> : null}
