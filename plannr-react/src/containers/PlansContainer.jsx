@@ -10,8 +10,8 @@ export default class PlansContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchAllPlans()
     this.fetchMyPlans()
+    this.fetchAllPlans()
   }
 
   fetchAllPlans = () => {
@@ -33,7 +33,7 @@ export default class PlansContainer extends React.Component {
         {<MyPlans myPlans={this.state.myPlans} />}
         <br/>
         All Plans:
-        {<AllPlans allPlans={this.state.allPlans} />}
+        {<AllPlans myPlans={this.state.myPlans} allPlans={this.state.allPlans} />}
       </div>
     )
   }

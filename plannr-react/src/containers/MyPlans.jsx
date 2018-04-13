@@ -5,8 +5,7 @@ import Plan from '../components/Plan'
 export default class MyPlans extends React.Component {
 
   renderMyPlans = () => {
-    console.log(this.props)
-    return this.props.myPlans.map( plan => <Plan plan={plan}/>)
+    return this.props.myPlans.map( plan => <Plan plan={plan} key={plan.id} notJoined={false}/>)
   }
 
   render() {
