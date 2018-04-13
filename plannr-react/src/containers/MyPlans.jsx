@@ -3,11 +3,16 @@ import React from 'react'
 import Plan from '../components/Plan'
 
 export default class MyPlans extends React.Component {
+
+  renderMyPlans = () => {
+    console.log(this.props)
+    return this.props.myPlans.map( plan => <Plan plan={plan}/>)
+  }
+
   render() {
     return (
       <div>
-        MyPlans
-        <a href="#" onClick={this.props.logout} >Log Out</a>
+        {this.renderMyPlans()}
       </div>
     )
   }

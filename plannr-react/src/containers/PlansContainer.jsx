@@ -1,13 +1,39 @@
 import React from 'react'
 
-import Plan from '../components/Plan'
+import MyPlans from './MyPlans'
+import AllPlans from './AllPlans'
 
 export default class PlansContainer extends React.Component {
+  state = {
+    allPlans: [],
+    myPlans: []
+  }
+
+  componentDidMount() {
+    this.fetchAllPlans()
+    this.fetchMyPlans()
+  }
+
+  fetchAllPlans = () => {
+    fetch('http://localhost:3000/api/v1/plans')
+    .then(res => res.json())
+    .then(json => this.setState({ allPlans: json }))
+  }
+
+  fetchMyPlans = () => {
+    fetch(`http://localhost:3000/api/v1/users/${this.props.user}/my_plans`)
+    .then(res => res.json())
+    .then(json => this.setState({ myPlans: json }))
+  }
+
   render() {
     return (
       <div>
-        PlansContainer
-
+        My Plans:
+        {<MyPlans myPlans={this.state.myPlans} />}
+        <br/>
+        All Plans:
+        {<AllPlans allPlans={this.state.allPlans} />}
       </div>
     )
   }

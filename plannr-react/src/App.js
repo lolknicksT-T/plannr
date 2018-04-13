@@ -4,8 +4,8 @@ import logo from './logo.svg';
 import './App.css';
 
 import Navbar from './containers/Navbar'
+import LoggedInNavbar from './containers/LoggedInNavbar'
 import PlansContainer from './containers/PlansContainer'
-import MyPlans from './containers/MyPlans'
 
 class App extends Component {
   state = {
@@ -42,8 +42,8 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
           </header>
 
-          {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <MyPlans user={this.state.user} logout={this.logout} /* history={renderProps.history */ />}
-          <PlansContainer />
+          {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <LoggedInNavbar logout={this.logout}/> }
+          {this.state.user_id ? <PlansContainer user={this.state.user_id} /> : null}
           <Switch>
 
         <Route exact path='/duh' component ={ PlansContainer } />
