@@ -13,6 +13,7 @@ module Api::V1
     def create
       @user = User.new(user_params)
       if @user.save
+        byebug
         render json: { id: @user.id, username: @user.username}
       else
         render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity

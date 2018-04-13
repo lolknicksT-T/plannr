@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
 
 import Navbar from './containers/Navbar'
 import PlansContainer from './containers/PlansContainer'
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 
 
 class App extends Component {

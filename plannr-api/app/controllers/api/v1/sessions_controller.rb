@@ -13,7 +13,6 @@ module Api::V1
 
     def create
       @user = User.find_by(username: params[:username])
-
       if @user && @user.authenticate(params["password"])
         byebug
         render json: { id: @user.id, username: @user.username }
