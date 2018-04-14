@@ -8,7 +8,8 @@ export default class PlansContainer extends React.Component {
   state = {
     allPlans: [],
     myPlans: [],
-    toggledPlan: 0
+    toggledPlan: 0,
+    joinedStatus: ""
   }
 
   componentDidMount() {
@@ -28,10 +29,8 @@ export default class PlansContainer extends React.Component {
     .then(json => this.setState({ myPlans: json }))
   }
 
-  viewPlanDetails = (planId) => {
-    console.log(planId)
-    console.log(this.state.toggledPlan)
-    this.state.toggledPlan !== planId ? this.setState({ toggledPlan: planId }) : this.setState({ toggledPlan: 0 })
+  viewPlanDetails = (planId, planJoinedStatus) => {
+    this.state.toggledPlan !== planId ? this.setState({ toggledPlan: planId, joinedStatus: planJoinedStatus }) : this.setState({ toggledPlan: 0, joinedStatus: "" })
   }
 
   findToggledPlan = () => {
@@ -49,7 +48,7 @@ export default class PlansContainer extends React.Component {
           {<AllPlans myPlans={this.state.myPlans} allPlans={this.state.allPlans} refetchMyPlans={this.fetchMyPlans} viewPlanDetails={this.viewPlanDetails} />}
           <br />
         </div>
-        {this.state.toggledPlan > 0 ? <PlanDetailsContainer plan={this.findToggledPlan()}/> : null}
+        {this.state.toggledPlan > 0 ? <PlanDetailsContainer plan={this.findToggledPlan()} joinedStatus={this.state.joinedStatus} /> : null}
       </div>
     )
   }

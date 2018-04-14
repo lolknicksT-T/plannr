@@ -80,3 +80,7 @@ if user_plan exists, admin: false
 
 login POST to sessions create
 register POST to users create
+
+-------------------------------------------
+click button to create a new plan
+fetch POST to `http://localhost:3000/api/v1/user/${parseInt(localStorage.user)}/plans`

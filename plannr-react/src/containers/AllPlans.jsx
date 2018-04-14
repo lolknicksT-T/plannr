@@ -9,7 +9,10 @@ export default class AllPlans extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
+    this.getNotJoinedPlans(nextProps)
+  }
 
+  getNotJoinedPlans = (nextProps) => {
     let notJoined = []
     if (nextProps.myPlans.length === 0) {
       this.setState({notJoinedPlans: nextProps.allPlans})
@@ -25,13 +28,13 @@ export default class AllPlans extends React.Component {
 
   notJoinedPlan = (plan) => {
     return (
-      <Plan key={plan.id} plan={plan} notJoined={true} refetchMyPlans={this.props.refetchMyPlans} viewPlanDetails={this.props.viewPlanDetails} />
+      <Plan key={plan.id} plan={plan} joined={false} refetchMyPlans={this.props.refetchMyPlans} viewPlanDetails={this.props.viewPlanDetails} />
     )
   }
 
   joinedPlan = (plan) => {
     return (
-      <Plan key={plan.id} plan={plan} notJoined={false} viewPlanDetails={this.props.viewPlanDetails} />
+      <Plan key={plan.id} plan={plan} joined={true} viewPlanDetails={this.props.viewPlanDetails} />
     )
   }
 
