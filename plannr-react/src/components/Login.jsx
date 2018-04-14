@@ -47,6 +47,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <div className="login">
+        <h3>Login</h3>
         <form onSubmit={this.handleSubmit}>
           <label /> Username:
           <input onChange= {this.handleChange} type="text" name="username"/>

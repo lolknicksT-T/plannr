@@ -2,11 +2,13 @@ import React from 'react'
 
 import MyPlans from './MyPlans'
 import AllPlans from './AllPlans'
+import PlanDetailsContainer from './PlanDetailsContainer'
 
 export default class PlansContainer extends React.Component {
   state = {
     allPlans: [],
-    myPlans: []
+    myPlans: [],
+    toggledPlan: 0
   }
 
   componentDidMount() {
@@ -26,14 +28,28 @@ export default class PlansContainer extends React.Component {
     .then(json => this.setState({ myPlans: json }))
   }
 
+  viewPlanDetails = (planId) => {
+    console.log(planId)
+    console.log(this.state.toggledPlan)
+    this.state.toggledPlan !== planId ? this.setState({ toggledPlan: planId }) : this.setState({ toggledPlan: 0 })
+  }
+
+  findToggledPlan = () => {
+    return this.state.allPlans.find( plan => plan.id === parseInt(this.state.toggledPlan) )
+  }
+
   render() {
     return (
       <div>
-        My Plans:
-        {<MyPlans myPlans={this.state.myPlans} />}
-        <br/>
-        All Plans:
-        {<AllPlans myPlans={this.state.myPlans} allPlans={this.state.allPlans} refetchMyPlans={this.fetchMyPlans}/>}
+        <div style={ this.state.toggledPlan > 0 ? {"float":"left"} : null}>
+          My Plans:
+          {<MyPlans myPlans={this.state.myPlans} viewPlanDetails={this.viewPlanDetails} />}
+          <br/>
+          All Plans:
+          {<AllPlans myPlans={this.state.myPlans} allPlans={this.state.allPlans} refetchMyPlans={this.fetchMyPlans} viewPlanDetails={this.viewPlanDetails} />}
+          <br />
+        </div>
+        {this.state.toggledPlan > 0 ? <PlanDetailsContainer plan={this.findToggledPlan()}/> : null}
       </div>
     )
   }

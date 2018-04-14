@@ -23,8 +23,22 @@ export default class AllPlans extends React.Component {
     }
   }
 
+  notJoinedPlan = (plan) => {
+    return (
+      <Plan key={plan.id} plan={plan} notJoined={true} refetchMyPlans={this.props.refetchMyPlans} viewPlanDetails={this.props.viewPlanDetails} />
+    )
+  }
+
+  joinedPlan = (plan) => {
+    return (
+      <Plan key={plan.id} plan={plan} notJoined={false} viewPlanDetails={this.props.viewPlanDetails} />
+    )
+  }
+
   renderPlans = () => {
-    return this.props.allPlans.map( plan => this.state.notJoinedPlans.includes(plan) ? <Plan key={plan.id} plan={plan} notJoined={true} refetchMyPlans={this.props.refetchMyPlans}/> : <Plan key={plan.id} plan={plan} notJoined={false} /> )
+    return this.props.allPlans.map( plan =>
+      this.state.notJoinedPlans.includes(plan) ? this.notJoinedPlan(plan) : this.joinedPlan(plan)
+    )
   }
 
   render() {

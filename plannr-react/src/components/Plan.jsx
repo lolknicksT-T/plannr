@@ -20,9 +20,15 @@ export default class Plan extends React.Component {
     .then(json => this.setState({notJoined: false}, this.props.refetchMyPlans))
   }
 
+  viewPlanDetails = (e) => {
+    console.log(this.props)
+    console.log(e.target.id)
+    this.props.viewPlanDetails(e.target.dataset.planid)
+  }
+
   render() {
     return (
-      <div data-planId={this.props.plan.id}>
+      <div data-planId={this.props.plan.id} onClick={this.viewPlanDetails}>
         {this.props.plan.title}
         { this.props.notJoined ? <button onClick={this.onJoinClick}> Join </button> : null}
       </div>
