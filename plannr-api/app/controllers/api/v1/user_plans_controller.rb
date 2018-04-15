@@ -4,13 +4,7 @@ module Api::V1
     def create
       @user = User.find(params[:user_id])
       @plan = Plan.find(params[:plan_id])
-      userplan = UserPlan.find_by(plan: @plan)
-
-      if userplan
-        @userplan = UserPlan.new(user: @user, plan:@plan, admin_id: 0)
-      else
-        @userplan = UserPlan.new(user: @user, plan:@plan, admin_id: @user.id)
-      end
+      @userplan = UserPlan.new(user: @user, plan:@plan)
 
       if @userplan.save
         render json: @userplan

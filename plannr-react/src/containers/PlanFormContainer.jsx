@@ -1,10 +1,13 @@
 import React from 'react'
+import DateTimePicker from 'react-datetime-picker'
 
 export default class PlanFormContainer extends React.Component {
 
   state = {
-    planName: '',
-    description: '',
+    planName: "",
+    description: "",
+    location: "",
+    date: new Date(),
     errors: []
   }
 
@@ -13,7 +16,10 @@ export default class PlanFormContainer extends React.Component {
     let data = {
       plan: {
         title: this.state.planName,
-        description: this.state.description
+        description: this.state.description,
+        location: this.state.location,
+        date_time: this.state.date,
+        admin_id: parseInt(localStorage.user)
       }
     }
 
@@ -37,7 +43,6 @@ export default class PlanFormContainer extends React.Component {
       }
     })
   }
-
 
   createNewUserPlan = (json) => {
     let data = {
@@ -100,6 +105,8 @@ export default class PlanFormContainer extends React.Component {
     // this.props.function(this.state)
   }
 
+  updateTime = date => this.setState({ date })
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.createNewPlan();
@@ -116,6 +123,8 @@ export default class PlanFormContainer extends React.Component {
           <label>Description</label>
           <input type='text' name='description' placeholder='Description'
             value={this.state.description} onChange={this.updateFormData}></input>
+          <input type='text' name='location' placeholder="Location" value={this.state.location} onChange={this.updateFormData}></input>
+          <DateTimePicker onChange={this.updateTime}           value={this.state.date} />
           <input type='submit'></input>
         </form>
       </div>

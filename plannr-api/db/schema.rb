@@ -32,12 +32,12 @@ ActiveRecord::Schema.define(version: 2018_04_13_033350) do
     t.string "description"
     t.string "location"
     t.datetime "date_time"
+    t.integer "admin_id"
   end
 
   create_table "user_plans", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "plan_id"
-    t.integer "admin_id"
     t.index ["plan_id"], name: "index_user_plans_on_plan_id"
     t.index ["user_id"], name: "index_user_plans_on_user_id"
   end

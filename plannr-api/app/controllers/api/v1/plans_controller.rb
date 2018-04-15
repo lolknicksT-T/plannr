@@ -37,7 +37,7 @@ module Api::V1
     private
 
     def plans_params
-      params.require(:plan).permit(:title, :description)
+      params.require(:plan).permit(:title, :description, :location, :date_time, :admin_id)
     end
   end
 end

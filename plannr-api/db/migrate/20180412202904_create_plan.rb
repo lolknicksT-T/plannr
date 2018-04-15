@@ -5,6 +5,7 @@ class CreatePlan < ActiveRecord::Migration[5.2]
       t.string :description
       t.string :location
       t.datetime :date_time
+      t.integer :admin_id
     end
   end
 end
