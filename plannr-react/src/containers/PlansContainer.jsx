@@ -29,13 +29,19 @@ export default class PlansContainer extends React.Component {
 
   renderSideBarContent = () => {
     if (this.state.toggledPlan === 0) {
+      console.log(this.state.toggledPlan);
+
       return null;
 
     }
     else if (this.state.toggledPlan < 0) {
-      this.renderPlanForm();
-    } else {
-      this.renderPlanDetails()
+      console.log(this.state.toggledPlan);
+
+      return this.renderPlanForm();
+    } else if(this.state.toggledPlan > 0) {
+      console.log(this.state.toggledPlan);
+
+      return this.renderPlanDetails()
     }
   }
 
@@ -65,8 +71,17 @@ export default class PlansContainer extends React.Component {
     .then(json => this.setState({ myPlans: json }))
   }
 
+
   viewPlanDetails = (planId, planJoinedStatus) => {
-    this.state.toggledPlan !== planId ? this.setState({ toggledPlan: planId, joinedStatus: planJoinedStatus }) : this.setState({ toggledPlan: 0, joinedStatus: "" })
+    if (this.state.toggledPlan !== planId){
+      this.props.setToggled(planId)
+      this.setState({ joinedStatus: planJoinedStatus })
+
+    } else {
+      this.props.setToggled(0)
+      this.setState({ joinedStatus: "" })
+    }
+
   }
 
   findToggledPlan = () => {
@@ -84,7 +99,8 @@ export default class PlansContainer extends React.Component {
           {<AllPlans myPlans={this.state.myPlans} allPlans={this.state.allPlans} refetchMyPlans={this.fetchMyPlans} viewPlanDetails={this.viewPlanDetails} />}
           <br />
         </div>
-        {this.state.toggledPlan > 0 ? <PlanDetailsContainer plan={this.findToggledPlan()} joinedStatus={this.state.joinedStatus} /> : null}
+        {this.renderSideBarContent()}
+
       </div>
     )
   }

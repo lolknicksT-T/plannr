@@ -47,7 +47,7 @@ class App extends Component {
 
           {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <LoggedInNavbar logout={this.logout} setToggled={this.setToggled}/> }
 
-          {this.state.user_id ? <PlansContainer user={this.state.user_id} toggled={this.state.toggled} /> : null}
+          {this.state.user_id ? <PlansContainer setToggled={this.setToggled} user={this.state.user_id} toggled={this.state.toggled} /> : null}
           <Switch>
 
         <Route exact path='/duh' component ={ PlansContainer } />
