@@ -43,11 +43,14 @@ export default class PlansContainer extends React.Component {
   }
 
   renderPlanDetails = () => {
-    return <PlanDetailsContainer plan={this.findToggledPlan()} joinedStatus={this.state.joinedStatus} />
+    return <PlanDetailsContainer plan={this.findToggledPlan()} joinedStatus={this.state.joinedStatus} findAndLeavePlan={this.findAndLeaveUserPlan}/>
   }
 
-
   componentDidMount() {
+    this.renderPlans()
+  }
+
+  renderPlans = () => {
     this.fetchMyPlans()
     this.fetchAllPlans()
   }
@@ -77,6 +80,34 @@ export default class PlansContainer extends React.Component {
 
   findToggledPlan = () => {
     return this.state.allPlans.find( plan => plan.id === parseInt(this.state.toggledPlan, 10) )
+  }
+
+  findAndLeaveUserPlan = () => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: parseInt(localStorage.user, 10),
+        plan_id: this.state.toggledPlan
+      })
+    }
+
+    fetch(`http://localhost:3000/api/v1/user_plans/find`, options)
+    .then(res => res.json())
+    .then(json => this.deleteUserPlan(json.id))
+  }
+
+  deleteUserPlan = (json) => {
+    const options = {
+      method: "DELETE"
+    }
+    console.log(this.state)
+    debugger
+    fetch(`http://localhost:3000/api/v1/user_plans/${json}`, options)
+    this.setState({toggledPlan: 0, joinedStatus: ""}, this.renderPlans )
   }
 
   render() {

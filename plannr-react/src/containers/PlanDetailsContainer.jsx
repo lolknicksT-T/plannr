@@ -3,15 +3,16 @@ import React from 'react'
 import JoinedUsers from './JoinedUsers'
 import Conversation from './Conversation'
 import JoinPlanButton from '../components/JoinPlanButton'
-import DeletePlanButton from '../components/DeletePlanButton'
+import EditPlanButton from '../components/EditPlanButton'
 import LeavePlanButton from '../components/LeavePlanButton'
 
 export default class PlanDetailsContainer extends React.Component {
+
   renderDeleteOrLeaveButon = () => {
     if (parseInt(localStorage.user) === this.props.plan.admin_id) {
-      return <DeletePlanButton />
+      return <EditPlanButton />
     } else if (this.props.joinedStatus) {
-      return <LeavePlanButton />
+      return <LeavePlanButton findAndLeavePlan={this.props.findAndLeavePlan}/>
     } else {
       return null
     }

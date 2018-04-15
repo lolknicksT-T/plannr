@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :plans, only: [:create, :update]
+      resources :plans, only: [:create, :update, :destroy]
       get '/plans', to: 'plans#index'
       get '/plans/:id', to: 'plans#show'
-      resources :user_plans, only: [:create]
+      post 'user_plans/find', to: 'user_plans#find'
+      resources :user_plans, only: [:create, :destroy]
       resources :sessions, only: [:create, :destroy]
       resources :conversations, only: [:show, :create] do
         resources :messages, only: [:index, :create]

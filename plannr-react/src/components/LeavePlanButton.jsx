@@ -4,7 +4,7 @@ export default class LeavePlanButton extends React.Component {
   render() {
     return(
       <div>
-        <button>Leave</button>
+        <button onClick={this.props.findAndLeavePlan}>Leave Plan</button>
       </div>
     )
   }
