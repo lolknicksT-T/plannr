@@ -34,7 +34,7 @@ export default class PlansContainer extends React.Component {
   }
 
   findToggledPlan = () => {
-    return this.state.allPlans.find( plan => plan.id === parseInt(this.state.toggledPlan) )
+    return this.state.allPlans.find( plan => plan.id === parseInt(this.state.toggledPlan, 10) )
   }
 
   render() {

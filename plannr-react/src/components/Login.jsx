@@ -32,9 +32,11 @@ export default class Login extends React.Component {
     .then(json => {
       if (json.errors) {
         this.setState({ errors: json.errors })
+        alert('Invalid Login Credentials')
       } else {
         this.setState({ errors: [] })
         this.setUser(json)
+
         // this.props.history.push("/")
       }
     })

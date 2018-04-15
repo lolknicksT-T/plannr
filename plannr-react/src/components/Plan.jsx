@@ -14,7 +14,7 @@ export default class Plan extends React.Component {
         "Accept": "application/json"
       },
       body: JSON.stringify({
-        user_id: parseInt(localStorage.user),
+        user_id: parseInt(localStorage.user, 10),
         plan_id: this.props.plan.id
       })
     }
@@ -39,7 +39,7 @@ export default class Plan extends React.Component {
 
   render() {
     return (
-      <div data-planId={this.props.plan.id} onClick={this.viewPlanDetails}>
+      <div data-planid={this.props.plan.id} onClick={this.viewPlanDetails}>
         {this.props.plan.title}
         {this.shouldJoinButtonRender()}
       </div>

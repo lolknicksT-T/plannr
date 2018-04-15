@@ -21,7 +21,7 @@ class App extends Component {
   setUser = (json) => {
     this.setState({ user_id: json.id })
     localStorage.user = JSON.stringify(json.id)
-    console.log(localStorage);
+    console.log(localStorage.user);
   }
 
   logout = ( /* history */ ) => {
