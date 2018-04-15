@@ -6,8 +6,7 @@ export default class Plan extends React.Component {
     joined: ""
   }
 
-  onJoinClick = (e) => {
-    console.log(this.state)
+  onJoinPlan = (e) => {
     const options = {
       method: "POST",
       headers: {
@@ -25,20 +24,16 @@ export default class Plan extends React.Component {
   }
 
   viewPlanDetails = (e) => {
-    console.log(this.props)
-    console.log(e.target.id)
     this.props.viewPlanDetails(e.target.dataset.planid, this.props.joined)
   }
 
   shouldJoinButtonRender = () => {
-    console.log(this.props)
-    console.log(this.state)
     if (this.props.joined == true) {
       return null
     } else if (this.props.joined == false) {
-      return <button onClick={this.onJoinClick}> Join </button>
+      return <button onClick={this.onJoinPlan}> Join </button>
     } else {
-      return <button onClick={this.onJoinClick}> Join </button>
+      return <button onClick={this.onJoinPlan}> Join </button>
     }
   }
 

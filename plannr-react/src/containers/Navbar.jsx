@@ -10,13 +10,10 @@ export default class Navbar extends React.Component {
   }
 
   handleClick = (e) => {
-    this.setState({
-      toggled: e.target.innerText
-    }, () =>  console.log(this.state.toggled))
+    this.setState({ toggled: e.target.innerText })
   }
 
   render() {
-    console.log(this.state.toggled);
     return (
       <div>
         <Link onClick={this.handleClick} to='#'>Login</Link>

@@ -6,8 +6,6 @@ import JoinPlanButton from '../components/JoinPlanButton'
 
 export default class PlanDetailsContainer extends React.Component {
   render() {
-    console.log(this.props)
-    debugger
     return(
       <div style={{"float": "right"}}>
         <h3>Plan Details: </h3>

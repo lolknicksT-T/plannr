@@ -1,29 +1,57 @@
 import React from 'react'
 
-import Login from '../components/Login'
-import Register from '../components/Register'
+import LogOut from '../components/LogOut'
 import { Link } from 'react-router-dom'
 
-export default class Navbar extends React.Component {
-  state = {
-    toggled: ""
+export default class LoggedInNavbar extends React.Component {
+
+  createNewPlan = () => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: parseInt(localStorage.user),
+        plan_id: this.props.plan.id
+      })
+    }
+    
+    fetch(`http://localhost:3000/api/v1/users/${parseInt(localStorage.user)}/plans`, options)
+    .then(res => res.json())
+    .then(json => this.setState({joined: true}, this.props.refetchMyPlans))
   }
 
-  handleClick = (e) => {
-    this.setState({
-      toggled: e.target.innerText
-    }, () =>  console.log(this.state.toggled))
+  createNewUserPlan = () => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: parseInt(localStorage.user),
+        plan_id: this.props.plan.id
+      })
+    }
+    
+    fetch(`http://localhost:3000/api/v1/users/${parseInt(localStorage.user)}/plans`, options)
+    .then(res => res.json())
+    .then(json => this.setState({joined: true}, this.props.refetchMyPlans))
+  }
+
+  onNewPlan = () => {
+    console.log(parseInt(localStorage.user))
+    debugger
   }
 
   render() {
-    console.log(this.state.toggled);
     return (
       <div>
-        <Link onClick={this.handleClick} to='#'>Login</Link>
-        <Link onClick={this.handleClick} to='#'>Register</Link>
-
-        {this.state.toggled === "Login" ? <Login setUser={this.props.setUser} /> : null}
-        {this.state.toggled === "Register" ? <Register setUser={this.props.setUser} /> : null}
+        <LogOut logout={this.props.logout}/>
+        <button >Dummy Make a Plan</button>
+        <button onClick={this.onNewPlan}>Make a Plan</button>
       </div>
     )
   }

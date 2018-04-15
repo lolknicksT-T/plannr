@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Navbar from './containers/Navbar'
-import LogOut from './components/LogOut'
+import LoggedInNavbar from './containers/LoggedInNavbar'
 import PlansContainer from './containers/PlansContainer'
 
 class App extends Component {
@@ -14,14 +14,12 @@ class App extends Component {
 
   componentDidMount() {
     if (localStorage.user) {
-      this.setState({ user_id: JSON.parse(localStorage.user)}, () => console.log(this.state))
+      this.setState({ user_id: JSON.parse(localStorage.user)})
     }
   }
 
   setUser = (json) => {
-    this.setState({
-      user_id: json.id
-    }, () => console.log(this.state))
+    this.setState({ user_id: json.id })
     localStorage.user = JSON.stringify(json.id)
     console.log(localStorage);
   }
@@ -42,7 +40,8 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
           </header>
 
-          {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <LogOut logout={this.logout}/> }
+          {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <LoggedInNavbar logout={this.logout}/> }
+
           {this.state.user_id ? <PlansContainer user={this.state.user_id} /> : null}
           <Switch>
 
