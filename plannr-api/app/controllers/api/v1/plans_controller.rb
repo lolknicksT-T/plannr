@@ -10,7 +10,13 @@ module Api::V1
 
 
     def create
+      @plan = Plan.new(plans_params)
+      if @plan.save
+        render json: @plan
+      else
+        render json: {errors: @plan.errors.full_messages}, status: :unprocessable_entity
     end
+  end
 
     def update
     end
@@ -32,7 +38,7 @@ module Api::V1
     private
 
     def plans_params
-      params.require(:plan).permit(:title, :user)
+      params.require(:plan).permit(:title, :description)
     end
 
 

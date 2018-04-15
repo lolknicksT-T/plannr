@@ -8,8 +8,8 @@ Rails.application.routes.draw do
       resources :conversations, only: [:show, :create] do
         resources :messages, only: [:index, :create]
       end
+      resources :plans, only: [:create, :update]
       resources :users, only: [:create] do
-        resources :plans, only: [:create, :update]
         get '/my_plans', to: 'plans#my_plans'
         get '/past_plans', to: 'plans#past_plans'
       end

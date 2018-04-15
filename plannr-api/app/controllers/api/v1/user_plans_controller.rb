@@ -3,11 +3,28 @@ module Api::V1
 
     def create
       @user = User.find(params[:user_id])
+
       @plan = Plan.find(params[:plan_id])
-      @userplan = UserPlan.create(user: @user, plan: @plan)
-      render json: @userplan
+      byebug
+
+      @userplan = UserPlan.new(user: @user, plan: @plan)
+      if @userplan.save
+        render json: @userplan
+      else
+        render json: {errors: @userplan.errors.full_messages}, status: :unprocessable_entity
+      end
+
+    end
+
+    private
+
+    def user_plans_params
+      params.require(:userplan).permit(:user_id, :plan_id)
+
     end
 
   end
+
+
 
 end
