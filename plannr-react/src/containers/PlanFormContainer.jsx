@@ -41,10 +41,8 @@ export default class PlanFormContainer extends React.Component {
 
   createNewUserPlan = (json) => {
     let data = {
-      userplan : {
-        user_id: parseInt(localStorage.user),
-        plan_id: json
-      }
+      user_id: parseInt(localStorage.user),
+      plan_id: json
     }
 
     const options = {
@@ -57,7 +55,7 @@ export default class PlanFormContainer extends React.Component {
     }
 
 
-    fetch(`http://localhost:3000/api/v1/user_plans`, options)
+    fetch('http://localhost:3000/api/v1/user_plans', options)
     .then(res => res.json())
     .then(json => {
       if (json.errors){
@@ -71,7 +69,7 @@ export default class PlanFormContainer extends React.Component {
       title: json.title,
       plan_id: json.id
     }
-    
+
     const options = {
       method: "POST",
       headers: {
@@ -86,6 +84,9 @@ export default class PlanFormContainer extends React.Component {
     .then(json => {
       if (json.errors){
         this.setState({errors: json.errors})
+      } else {
+        this.props.refetchMyPlans()
+        this.props.refetchAllPlans()
       }
     })
   }

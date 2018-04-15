@@ -39,7 +39,7 @@ export default class PlansContainer extends React.Component {
   }
 
   renderPlanForm = () => {
-    return <PlanFormContainer />
+    return <PlanFormContainer refetchMyPlans={this.fetchMyPlans} refetchAllPlans={this.fetchAllPlans}/>
   }
 
   renderPlanDetails = () => {

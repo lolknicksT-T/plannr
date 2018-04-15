@@ -4,8 +4,14 @@ module Api::V1
     def create
       @user = User.find(params[:user_id])
       @plan = Plan.find(params[:plan_id])
-      byebug
-      @userplan = UserPlan.new(user: @user, plan: @plan)
+      userplan = UserPlan.find_by(plan: @plan)
+
+      if userplan
+        @userplan = UserPlan.new(user: @user, plan:@plan, admin_id: 0)
+      else
+        @userplan = UserPlan.new(user: @user, plan:@plan, admin_id: @user.id)
+      end
+
       if @userplan.save
         render json: @userplan
       else
@@ -19,5 +25,5 @@ module Api::V1
     def user_plans_params
       params.require(:userplan).permit(:user_id, :plan_id)
     end
-  ends
+  end
 end

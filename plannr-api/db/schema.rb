@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 2018_04_13_033350) do
   create_table "plans", force: :cascade do |t|
     t.string "title"
     t.string "description"
+    t.string "location"
+    t.datetime "date_time"
   end
 
   create_table "user_plans", force: :cascade do |t|
