@@ -3,10 +3,8 @@ module Api::V1
 
     def create
       @user = User.find(params[:user_id])
-
       @plan = Plan.find(params[:plan_id])
       byebug
-
       @userplan = UserPlan.new(user: @user, plan: @plan)
       if @userplan.save
         render json: @userplan
@@ -20,11 +18,6 @@ module Api::V1
 
     def user_plans_params
       params.require(:userplan).permit(:user_id, :plan_id)
-
     end
-
-  end
-
-
-
+  ends
 end

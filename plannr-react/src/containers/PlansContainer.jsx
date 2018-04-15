@@ -29,18 +29,11 @@ export default class PlansContainer extends React.Component {
 
   renderSideBarContent = () => {
     if (this.state.toggledPlan === 0) {
-      console.log(this.state.toggledPlan);
-
       return null;
-
     }
     else if (this.state.toggledPlan < 0) {
-      console.log(this.state.toggledPlan);
-
       return this.renderPlanForm();
     } else if(this.state.toggledPlan > 0) {
-      console.log(this.state.toggledPlan);
-
       return this.renderPlanDetails()
     }
   }
@@ -76,12 +69,10 @@ export default class PlansContainer extends React.Component {
     if (this.state.toggledPlan !== planId){
       this.props.setToggled(planId)
       this.setState({ joinedStatus: planJoinedStatus })
-
     } else {
       this.props.setToggled(0)
       this.setState({ joinedStatus: "" })
     }
-
   }
 
   findToggledPlan = () => {
@@ -100,7 +91,6 @@ export default class PlansContainer extends React.Component {
           <br />
         </div>
         {this.renderSideBarContent()}
-
       </div>
     )
   }

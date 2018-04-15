@@ -9,9 +9,5 @@ module Api::V1
     def messages_params
       params.require(:conversation).permit(:content, :conversation)
     end
-
-
   end
-
-
 end

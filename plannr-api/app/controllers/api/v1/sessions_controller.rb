@@ -23,16 +23,11 @@ module Api::V1
     def destroy
     end
 
-
     private
 
     # def sessions_params
     #   params.require(:sessions).permit(:username, :password)
     # end
 
-
-
   end
-
-
 end

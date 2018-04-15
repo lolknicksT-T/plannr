@@ -12,7 +12,6 @@ module Api::V1
       else
         render json: {errors: @conversation.errors.full_messages}, status: :unprocessable_entity
       end
-
     end
 
     private
@@ -20,8 +19,5 @@ module Api::V1
     def conversation_params
       params.require(:conversation).permit(:title, :plan_id)
     end
-
   end
-
-
 end

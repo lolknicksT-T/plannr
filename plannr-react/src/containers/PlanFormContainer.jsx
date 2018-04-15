@@ -11,9 +11,12 @@ export default class PlanFormContainer extends React.Component {
 
   createNewPlan = () => {
     let data = {
-      plan: {title: this.state.planName,
-      description: this.state.description}
+      plan: {
+        title: this.state.planName,
+        description: this.state.description
+      }
     }
+
     const options = {
       method: "POST",
       headers: {
@@ -28,25 +31,22 @@ export default class PlanFormContainer extends React.Component {
     .then(json => {
       if (json.errors){
         this.setState({errors: json.errors})
-
       } else {
-
         this.createNewUserPlan(json.id)
         this.createNewConversation(json)
       }
     })
-
   }
 
 
   createNewUserPlan = (json) => {
-    let data =
-      {userplan :
-      {
+    let data = {
+      userplan : {
         user_id: parseInt(localStorage.user),
         plan_id: json
       }
     }
+
     const options = {
       method: "POST",
       headers: {
@@ -62,10 +62,8 @@ export default class PlanFormContainer extends React.Component {
     .then(json => {
       if (json.errors){
         this.setState({errors: json.errors})
-
       }
     })
-
   }
 
   createNewConversation = (json) => {
@@ -73,6 +71,7 @@ export default class PlanFormContainer extends React.Component {
       title: json.title,
       plan_id: json.id
     }
+    
     const options = {
       method: "POST",
       headers: {
@@ -87,10 +86,8 @@ export default class PlanFormContainer extends React.Component {
     .then(json => {
       if (json.errors){
         this.setState({errors: json.errors})
-
       }
     })
-
   }
 
 
@@ -105,32 +102,21 @@ export default class PlanFormContainer extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.createNewPlan();
-
   }
-
-
 
   render(){
     console.log(this.state);
     return(
       <div className='planform'>
-
         <form onSubmit={this.handleSubmit}>
-        <label>Plan Name</label>
-        <input type='text' name='planName' value ={this.state.planName}
-           onChange={this.updateFormData} placeholder='Plan Name'></input>
-
-         <label>Description</label>
+          <label>Plan Name</label>
+          <input type='text' name='planName' value ={this.state.planName}
+            onChange={this.updateFormData} placeholder='Plan Name'></input>
+          <label>Description</label>
           <input type='text' name='description' placeholder='Description'
             value={this.state.description} onChange={this.updateFormData}></input>
-
-
           <input type='submit'></input>
-
-          </form>
-
-
-
+        </form>
       </div>
     )
   }

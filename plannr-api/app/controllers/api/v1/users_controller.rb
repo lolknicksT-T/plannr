@@ -24,10 +24,5 @@ module Api::V1
     def user_params
       params.require(:user).permit(:username, :password)
     end
-
-
-
   end
-
-
 end
