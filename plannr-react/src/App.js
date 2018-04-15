@@ -23,7 +23,7 @@ class App extends Component {
       user_id: json.id
     }, () => console.log(this.state))
     localStorage.user = JSON.stringify(json.id)
-    console.log(localStorage);
+    console.log(localStorage.user);
   }
 
   logout = ( /* history */ ) => {

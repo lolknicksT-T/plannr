@@ -15,7 +15,7 @@ export default class Plan extends React.Component {
         "Accept": "application/json"
       },
       body: JSON.stringify({
-        user_id: parseInt(localStorage.user),
+        user_id: parseInt(localStorage.user, 10),
         plan_id: this.props.plan.id
       })
     }
@@ -33,9 +33,9 @@ export default class Plan extends React.Component {
   shouldJoinButtonRender = () => {
     console.log(this.props)
     console.log(this.state)
-    if (this.props.joined == true) {
+    if (this.props.joined === true) {
       return null
-    } else if (this.props.joined == false) {
+    } else if (this.props.joined === false) {
       return <button onClick={this.onJoinClick}> Join </button>
     } else {
       return <button onClick={this.onJoinClick}> Join </button>
@@ -44,7 +44,7 @@ export default class Plan extends React.Component {
 
   render() {
     return (
-      <div data-planId={this.props.plan.id} onClick={this.viewPlanDetails}>
+      <div data-planid={this.props.plan.id} onClick={this.viewPlanDetails}>
         {this.props.plan.title}
         {this.shouldJoinButtonRender()}
       </div>
