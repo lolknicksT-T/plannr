@@ -9,7 +9,8 @@ import PlansContainer from './containers/PlansContainer'
 
 class App extends Component {
   state = {
-    user_id: null
+    user_id: null,
+    toggled: 0
   }
 
   componentDidMount() {
@@ -31,6 +32,10 @@ class App extends Component {
     }, () => console.log(this.state)/*, () => history.push("/") */)
   }
 
+  setToggled = (num) => {
+    this.state.toggled === num ? this.setState({ toggled: 0 }) : this.setState({ toggled: num })
+  }
+
   render() {
     return (
 
@@ -40,9 +45,9 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
           </header>
 
-          {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <LoggedInNavbar logout={this.logout}/> }
+          {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <LoggedInNavbar logout={this.logout} setToggled={this.setToggled}/> }
 
-          {this.state.user_id ? <PlansContainer user={this.state.user_id} /> : null}
+          {this.state.user_id ? <PlansContainer user={this.state.user_id} toggled={this.state.toggled} /> : null}
           <Switch>
 
         <Route exact path='/duh' component ={ PlansContainer } />

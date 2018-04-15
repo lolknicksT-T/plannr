@@ -57,14 +57,12 @@ export default class CreatePlanButton extends React.Component {
   }
 
   onNewPlan = () => {
-    console.log(parseInt(localStorage.user))
-    debugger
+    this.props.setToggled(-1)
   }
 
   render() {
     return(
       <div>
-        <button >Dummy Make a Plan</button>
         <button onClick={this.onNewPlan}>Make a Plan</button>
       </div>
     )

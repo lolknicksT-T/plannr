@@ -3,14 +3,50 @@ import React from 'react'
 import MyPlans from './MyPlans'
 import AllPlans from './AllPlans'
 import PlanDetailsContainer from './PlanDetailsContainer'
+import PlanFormContainer from './PlanFormContainer'
 
 export default class PlansContainer extends React.Component {
   state = {
     allPlans: [],
     myPlans: [],
-    toggledPlan: 0,
+    toggledPlan: this.props.toggled,
     joinedStatus: ""
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.props.toggled !== nextProps.toggled ? this.setState({ toggledPlan: nextProps.toggled }, () => console.log(this.state.toggledPlan)) : null
+  }
+
+  shouldJoinButtonRender = () => {
+    if (this.props.joined == true) {
+      return null
+    } else if (this.props.joined == false) {
+      return <button onClick={this.onJoinPlan}> Join </button>
+    } else {
+      return <button onClick={this.onJoinPlan}> Join </button>
+    }
+  }
+
+  renderSideBarContent = () => {
+    if (this.state.toggledPlan === 0) {
+      return null;
+
+    }
+    else if (this.state.toggledPlan < 0) {
+      this.renderPlanForm();
+    } else {
+      this.renderPlanDetails()
+    }
+  }
+
+  renderPlanForm = () => {
+    return <PlanFormContainer />
+  }
+
+  renderPlanDetails = () => {
+    return <PlanDetailsContainer plan={this.findToggledPlan()} joinedStatus={this.state.joinedStatus} />
+  }
+
 
   componentDidMount() {
     this.fetchMyPlans()
@@ -40,7 +76,7 @@ export default class PlansContainer extends React.Component {
   render() {
     return (
       <div>
-        <div style={ this.state.toggledPlan > 0 ? {"float":"left"} : null}>
+        <div style={ this.state.toggledPlan !== 0 ? {"float":"left"} : null}>
           My Plans:
           {<MyPlans myPlans={this.state.myPlans} viewPlanDetails={this.viewPlanDetails} />}
           <br/>

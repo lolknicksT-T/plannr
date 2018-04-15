@@ -10,7 +10,7 @@ export default class LoggedInNavbar extends React.Component {
     return (
       <div>
         <LogOut logout={this.props.logout}/>
-        <CreatePlanButton />
+        <CreatePlanButton setToggled={this.props.setToggled}/>
       </div>
     )
   }
