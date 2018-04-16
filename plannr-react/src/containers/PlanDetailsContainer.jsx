@@ -68,8 +68,8 @@ export default class PlanDetailsContainer extends React.Component {
         <h3>{this.state.plan.title}</h3>
         <p>{this.state.plan.description}</p>
         <h4>{this.state.plan.location} @ {this.state.plan.date_time}</h4>
-        <ul>{joinedUsers}</ul>
-        {this.state.joinedStatus ? <Conversation /> : <JoinPlanButton onJoinPlan={this.onJoinPlan}/>}
+        <ul>Joined Users: {joinedUsers}</ul>
+        {this.state.joinedStatus ? <Conversation planId={this.state.plan.id}/> : <JoinPlanButton onJoinPlan={this.onJoinPlan}/>}
       </div>
     )
   }

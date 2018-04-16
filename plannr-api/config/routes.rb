@@ -7,9 +7,8 @@ Rails.application.routes.draw do
       post 'user_plans/find', to: 'user_plans#find'
       resources :user_plans, only: [:create, :destroy]
       resources :sessions, only: [:create, :destroy]
-      resources :conversations, only: [:show, :create] do
-        resources :messages, only: [:index, :create]
-      end
+      resources :conversations, only: [:show, :create]
+      resources :messages, only: [:create]
       resources :users, only: [:create] do
         get '/my_plans', to: 'plans#my_plans'
         get '/past_plans', to: 'plans#past_plans'
