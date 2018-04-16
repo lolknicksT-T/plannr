@@ -29,7 +29,7 @@ export default class PlansContainer extends React.Component {
   }
 
   renderPlanDetails = () => {
-    return <PlanDetailsContainer allPlans={this.props.allPlans} myPlans={this.props.myPlans} toggledView={this.props.toggledView} toggledPlan={this.props.toggledPlan} findAndLeavePlan={this.findAndLeaveUserPlan} />
+    return <PlanDetailsContainer allPlans={this.props.allPlans} myPlans={this.props.myPlans} toggledView={this.props.toggledView} toggledPlan={this.props.toggledPlan} findAndLeavePlan={this.findAndLeaveUserPlan} setToggled={this.props.setToggled}/>
   }
 
   findAndLeaveUserPlan = () => {
@@ -55,8 +55,7 @@ export default class PlansContainer extends React.Component {
       method: "DELETE"
     }
     fetch(`http://localhost:3000/api/v1/user_plans/${json.id}`, options)
-    .then(res => this.setToggled("none", 0))
-    .then(res => this.renderPlans())
+    .then(res => this.props.setToggled("none", 0))
   }
 
   render() {

@@ -74,14 +74,16 @@ export default class PlanDetailsContainer extends React.Component {
     }
     fetch('http://localhost:3000/api/v1/user_plans', options)
     .then(res => res.json())
-    .then(json => this.setState({joinedStatus: true}, () => {
-      this.props.renderPlans()
-      this.getPlanAndJoinedUsers()
-    }))
+    .then(json => this.props.setToggled("detail", json.plan_id))
+  }
+
+  joinedUsers = () => {
+    if (Array.isArray(this.state.joined_users)) {
+      return this.state.joined_users.map( user => <JoinedUser user={user}/>)
+    }
   }
 
   render() {
-    // const joinedUsers = this.state.joined_users.map( user => <JoinedUser user={user}/>)
     return(
       <div style={{"float": "right"}}>
         <h3>Plan Details: </h3>
@@ -89,8 +91,8 @@ export default class PlanDetailsContainer extends React.Component {
         <h3>{this.state.plan.title}</h3>
         <p>{this.state.plan.description}</p>
         <h4>{this.state.plan.location} @ {this.state.plan.date_time}</h4>
-        {/* <ul>Joined Users: {joinedUsers}</ul> */}
-        {this.state.joinedStatus ? <Conversation planId={this.state.plan.id}/> : <JoinPlanButton onJoinPlan={this.onJoinPlan}/>}
+        <ul>Joined Users: {this.joinedUsers()}</ul>
+        {this.state.joinedStatus ? <Conversation planId={this.state.plan.id} /> : <JoinPlanButton onJoinPlan={this.onJoinPlan}/>}
       </div>
     )
   }

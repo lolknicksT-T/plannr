@@ -1,7 +1,7 @@
 import React from 'react'
 import DateTimePicker from 'react-datetime-picker'
 
-export default class PlanFormContainer extends React.Component {
+export default class EditPlanForm extends React.Component {
 
   state = {
     planName: "",

@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.user !== "") {
+    if (localStorage.user && localStorage.user !== "") {
       this.setState({ user_id: JSON.parse(localStorage.user)}, () => this.fetchPlans(this.state) )
     }
   }
