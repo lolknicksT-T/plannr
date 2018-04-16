@@ -2,7 +2,7 @@ module Api::V1
   class PlansController < ApplicationController
 
     def index
-      render json: Plan.all
+      render json: Plan.select{|plan| plan.date_time > DateTime.now}
     end
 
     def show
@@ -26,8 +26,9 @@ module Api::V1
 
     def my_plans
       user_plans = UserPlan.select{|plan| plan.user_id.to_s == params[:user_id]}
-      @plans = []
-      user_plans.each{|plan| @plans << Plan.find(plan.plan_id)}
+      plans = []
+      user_plans.each{|plan| plans << Plan.find(plan.plan_id)}
+      @plans = plans.select{|plan| plan.date_time > DateTime.now}
       if @plans
         render json: @plans
       else
@@ -36,6 +37,15 @@ module Api::V1
     end
 
     def past_plans
+      user_plans = UserPlan.select{|plan| plan.user_id.to_s == params[:user_id]}
+      plans = []
+      user_plans.each{|plan| plans << Plan.find(plan.plan_id)}
+      @plans = plans.select{|plan| plan.date_time < DateTime.now}
+      if @plans
+        render json: @plans
+      else
+        render json: true, :status => :not_found
+      end
     end
 
     private
