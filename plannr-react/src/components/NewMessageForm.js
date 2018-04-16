@@ -9,13 +9,11 @@ class NewMessageForm extends React.Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    console.log(nextProps)
-    debugger
     this.setState({ conversation_id: nextProps.conversation_id });
   };
 
   handleChange = e => {
-    this.setState({ content: e.target.value }, console.log(this.state));
+    this.setState({ content: e.target.value });
   };
 
   handleSubmit = e => {

@@ -17,11 +17,10 @@ export default class Conversation extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
-    debugger
+
     fetch(`http://localhost:3000/api/v1/conversations/${nextProps.planId}`)
     .then(res => res.json())
-    .then(conversation => this.setState({conversation}, () => console.log(this.state)))
+    .then(conversation => this.setState({conversation}))
   }
 
   handleReceivedMessage = response => {
@@ -32,8 +31,7 @@ export default class Conversation extends React.Component {
   };
 
   render() {
-    console.log(this.state)
-    debugger
+
     return(
       <div className="conversation">
         <ActionCable channel={{ channel: 'ConversationsChannel' }} />
