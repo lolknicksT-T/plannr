@@ -1,6 +1,6 @@
 import React from 'react'
 
-import JoinedUsers from './JoinedUsers'
+import JoinedUser from '../components/JoinedUser'
 import Conversation from './Conversation'
 import JoinPlanButton from '../components/JoinPlanButton'
 import EditPlanButton from '../components/EditPlanButton'
@@ -15,6 +15,10 @@ export default class PlanDetailsContainer extends React.Component {
   }
 
   componentDidMount() {
+    this.getPlanAndJoinedUsers()
+  }
+
+  getPlanAndJoinedUsers = () => {
     fetch(`http://localhost:3000/api/v1/plans/${parseInt(this.props.toggledPlan, 10)}`)
     .then(res => res.json())
     .then(json => this.setState({
@@ -49,11 +53,14 @@ export default class PlanDetailsContainer extends React.Component {
     }
     fetch('http://localhost:3000/api/v1/user_plans', options)
     .then(res => res.json())
-    .then(json => this.setState({joinedStatus: true},
-    this.props.renderPlans))
+    .then(json => this.setState({joinedStatus: true}, () => {
+      this.props.renderPlans()
+      this.getPlanAndJoinedUsers()
+    }))
   }
 
   render() {
+    const joinedUsers = this.state.joined_users.map( user => <JoinedUser user={user}/>)
     return(
       <div style={{"float": "right"}}>
         <h3>Plan Details: </h3>
@@ -61,7 +68,7 @@ export default class PlanDetailsContainer extends React.Component {
         <h3>{this.state.plan.title}</h3>
         <p>{this.state.plan.description}</p>
         <h4>{this.state.plan.location} @ {this.state.plan.date_time}</h4>
-        <JoinedUsers users={this.state.joined_users}/>
+        <ul>{joinedUsers}</ul>
         {this.state.joinedStatus ? <Conversation /> : <JoinPlanButton onJoinPlan={this.onJoinPlan}/>}
       </div>
     )
