@@ -20,28 +20,18 @@ export default class Plan extends React.Component {
     }
     fetch('http://localhost:3000/api/v1/user_plans', options)
     .then(res => res.json())
-    .then(json => this.setState({joined: true}, this.props.refetchMyPlans))
+    .then(json => this.setToggled("detail", json.plan_id))
   }
 
-  viewPlanDetails = (e) => {
-    this.props.viewPlanDetails(e.target.dataset.planid, this.props.joined)
-  }
-
-  shouldJoinButtonRender = () => {
-    if (this.props.joined == true) {
-      return null
-    } else if (this.props.joined == false) {
-      return <button onClick={this.onJoinPlan}> Join </button>
-    } else {
-      return <button onClick={this.onJoinPlan}> Join </button>
-    }
+  setToggled = (e) => {
+    this.props.setToggled("detail", e.target.dataset.planid)
   }
 
   render() {
     return (
-      <div data-planid={this.props.plan.id} onClick={this.viewPlanDetails}>
+      <div data-planid={this.props.plan.id} onClick={this.setToggled}>
         {this.props.plan.title}
-        {this.shouldJoinButtonRender()}
+        {this.props.joined == true ? null : <button onClick={this.onJoinPlan}> Join </button>}
       </div>
     )
   }

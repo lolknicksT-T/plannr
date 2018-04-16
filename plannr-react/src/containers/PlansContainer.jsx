@@ -1,69 +1,35 @@
 import React from 'react'
 
-import MyPlans from './MyPlans'
-import AllPlans from './AllPlans'
+import MyPlansContainer from './MyPlansContainer'
+import AllPlansContainer from './AllPlansContainer'
 import PlanDetailsContainer from './PlanDetailsContainer'
-import PlanFormContainer from './PlanFormContainer'
+import NewPlanForm from './NewPlanForm'
+// import EditPlanForm from './EditPlanForm'
 
 export default class PlansContainer extends React.Component {
-  state = {
-    allPlans: [],
-    myPlans: [],
-    toggledPlan: this.props.toggled,
-    joinedStatus: ""
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.props.toggled !== nextProps.toggled ? this.setState({ toggledPlan: nextProps.toggled }) : null
-  }
 
   renderSideBarContent = () => {
-    if (this.state.toggledPlan === 0) {
+    if (this.props.toggledView === "none") {
       return null;
-    } else if (this.state.toggledPlan < 0) {
-      return this.renderPlanForm();
-    } else if(this.state.toggledPlan > 0) {
+    } else if (this.props.toggledView === "new") {
+      return this.renderNewPlanForm();
+    } else if (this.props.toggledView === "edit") {
+      return this.renderEditPlanForm();
+    } else if(this.props.toggledView === "detail") {
       return this.renderPlanDetails()
     }
   }
 
-  renderPlanForm = () => {
-    return <PlanFormContainer refetchMyPlans={this.fetchMyPlans} refetchAllPlans={this.fetchAllPlans}/>
+  renderNewPlanForm = () => {
+    return <NewPlanForm refetchMyPlans={this.fetchMyPlans} refetchAllPlans={this.fetchAllPlans} />
+  }
+
+  renderEditPlanForm = () => {
+
   }
 
   renderPlanDetails = () => {
-    return <PlanDetailsContainer toggledPlan={this.state.toggledPlan} joinedStatus={this.state.joinedStatus} findAndLeavePlan={this.findAndLeaveUserPlan} renderPlans={this.renderPlans}/>
-  }
-
-  componentDidMount() {
-    this.renderPlans()
-  }
-
-  renderPlans = () => {
-    this.fetchMyPlans()
-    this.fetchAllPlans()
-  }
-
-  fetchAllPlans = () => {
-    fetch('http://localhost:3000/api/v1/plans')
-    .then(res => res.json())
-    .then(json => this.setState({ allPlans: json }))
-  }
-
-  fetchMyPlans = () => {
-    fetch(`http://localhost:3000/api/v1/users/${this.props.user}/my_plans`)
-    .then(res => res.json())
-    .then(json => this.setState({ myPlans: json }))
-  }
-
-  viewPlanDetails = (planId, planJoinedStatus) => {
-    if (this.state.toggledPlan !== planId){
-      this.props.setToggled(planId)
-      this.setState({ joinedStatus: planJoinedStatus })
-    } else {
-      this.props.setToggled(0)
-      this.setState({ joinedStatus: "" })
-    }
+    return <PlanDetailsContainer toggledPlan={this.props.toggledPlan} findAndLeavePlan={this.findAndLeaveUserPlan} />
   }
 
   findAndLeaveUserPlan = () => {
@@ -75,33 +41,33 @@ export default class PlansContainer extends React.Component {
       },
       body: JSON.stringify({
         user_id: parseInt(localStorage.user, 10),
-        plan_id: this.state.toggledPlan
+        plan_id: this.props.toggledPlan
       })
     }
 
     fetch(`http://localhost:3000/api/v1/user_plans/find`, options)
     .then(res => res.json())
-    .then(json => this.deleteUserPlan(json.id))
+    .then(json => this.deleteUserPlan(json))
   }
 
   deleteUserPlan = (json) => {
     const options = {
       method: "DELETE"
     }
-    fetch(`http://localhost:3000/api/v1/user_plans/${json}`, options)
-    .then(res => this.setState({toggledPlan: 0, joinedStatus: ""}))
+    fetch(`http://localhost:3000/api/v1/user_plans/${json.id}`, options)
+    .then(res => this.setToggled("none", 0))
     .then(res => this.renderPlans())
   }
 
   render() {
     return (
       <div>
-        <div style={ this.state.toggledPlan !== 0 ? {"float":"left"} : null}>
+        <div style={ this.props.toggledPlan !== 0 ? {"float":"left"} : null}>
           My Plans:
-          {<MyPlans myPlans={this.state.myPlans} viewPlanDetails={this.viewPlanDetails} />}
+          {<MyPlansContainer myPlans={this.props.myPlans} setToggled={this.props.setToggled} />}
           <br/>
           All Plans:
-          {<AllPlans myPlans={this.state.myPlans} allPlans={this.state.allPlans} refetchMyPlans={this.fetchMyPlans} viewPlanDetails={this.viewPlanDetails} />}
+          {<AllPlansContainer myPlans={this.props.myPlans} allPlans={this.props.allPlans} notJoinedPlans={this.props.notJoinedPlans} setToggled={this.props.setToggled} />}
           <br />
         </div>
         {this.renderSideBarContent()}

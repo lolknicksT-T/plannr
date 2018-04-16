@@ -10,30 +10,69 @@ import PlansContainer from './containers/PlansContainer'
 class App extends Component {
   state = {
     user_id: null,
-    toggled: 0
+    toggledView: "none",
+    toggledPlan: 0,
+    allPlans: "",
+    myPlans: "",
+    pastPlans: "",
+    notJoinedPlans: ""
   }
 
   componentDidMount() {
     if (localStorage.user) {
-      this.setState({ user_id: JSON.parse(localStorage.user)})
+      this.setState({ user_id: JSON.parse(localStorage.user)}, this.fetchPlans )
+    }
+  }
+
+  fetchPlans = () => {
+    this.fetchAllPlans()
+    this.fetchPastPlans()
+  }
+
+  fetchAllPlans = () => {
+    fetch('http://localhost:3000/api/v1/plans')
+    .then(res => res.json())
+    .then(json => this.setState({ allPlans: json }, this.fetchMyPlans))
+  }
+
+  fetchMyPlans = () => {
+    fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}/my_plans`)
+    .then(res => res.json())
+    .then(json => this.setState({ myPlans: json }, this.notJoinedPlans ))
+  }
+
+  fetchPastPlans = () => {
+    fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}/past_plans`)
+    .then(res => res.json())
+    .then(json => this.setState({ pastPlans: json }))
+  }
+
+  notJoinedPlans = () => {
+    let notJoined = []
+    if (this.state.myPlans.length === 0) {
+      this.setState({notJoinedPlans: this.state.allPlans})
+    } else if (this.state.allPlans.length > 0 && this.state.myPlans.length > 0) {
+      this.state.allPlans.map( plan => plan.id).forEach( planId => {
+        if(!this.state.myPlans.map( plan => plan.id ).includes(planId)) {
+          notJoined.push(this.state.allPlans[planId - 1])
+        }
+      })
+      this.setState({notJoinedPlans: notJoined}, () => console.log(this.state))
     }
   }
 
   setUser = (json) => {
     this.setState({ user_id: json.id })
-    localStorage.user = JSON.stringify(json.id)
-    console.log(localStorage.user);
+    localStorage.user = JSON.stringify(json.id);
   }
 
-  logout = ( /* history */ ) => {
+  logout = ( ) => {
     localStorage.user = ""
-    this.setState({
-      user_id: null
-    }, () => console.log(this.state)/*, () => history.push("/") */)
+    this.setState({ user_id: null })
   }
 
-  setToggled = (num) => {
-    this.state.toggled === num ? this.setState({ toggled: 0 }) : this.setState({ toggled: num })
+  setToggled = (view, plan) => {
+    this.state.toggledView === view ? this.setState({ toggledView: "none", toggledPlan: 0 }, () => console.log(this.state)) : this.setState({ toggledView: view, toggledPlan: plan }, () => console.log(this.state))
   }
 
   render() {
@@ -44,10 +83,9 @@ class App extends Component {
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
           </header>
-
           {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <LoggedInNavbar logout={this.logout} setToggled={this.setToggled}/> }
+          {this.state.user_id ? <PlansContainer user_id={this.state.user_id} setToggled={this.setToggled} toggledView={this.state.toggledView} toggledPlan={this.state.toggledPlan} allPlans={this.state.allPlans} myPlans={this.state.myPlans} pastPlans={this.state.pastPlans} notJoinedPlans={this.state.notJoinedPlans} /> : null}
 
-          {this.state.user_id ? <PlansContainer setToggled={this.setToggled} user={this.state.user_id} toggled={this.state.toggled} /> : null}
           <Switch>
 
         <Route exact path='/duh' component ={ PlansContainer } />
