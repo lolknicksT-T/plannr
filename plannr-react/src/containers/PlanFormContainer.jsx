@@ -98,7 +98,6 @@ export default class PlanFormContainer extends React.Component {
 
 
   updateFormData = (e) => {
-    console.log(e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -113,7 +112,6 @@ export default class PlanFormContainer extends React.Component {
   }
 
   render(){
-    console.log(this.state);
     return(
       <div className='planform'>
         <form onSubmit={this.handleSubmit}>

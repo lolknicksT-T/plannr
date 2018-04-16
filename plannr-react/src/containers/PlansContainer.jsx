@@ -14,24 +14,13 @@ export default class PlansContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.toggled !== nextProps.toggled ? this.setState({ toggledPlan: nextProps.toggled }, () => console.log(this.state.toggledPlan)) : null
-  }
-
-  shouldJoinButtonRender = () => {
-    if (this.props.joined == true) {
-      return null
-    } else if (this.props.joined == false) {
-      return <button onClick={this.onJoinPlan}> Join </button>
-    } else {
-      return <button onClick={this.onJoinPlan}> Join </button>
-    }
+    this.props.toggled !== nextProps.toggled ? this.setState({ toggledPlan: nextProps.toggled }) : null
   }
 
   renderSideBarContent = () => {
     if (this.state.toggledPlan === 0) {
       return null;
-    }
-    else if (this.state.toggledPlan < 0) {
+    } else if (this.state.toggledPlan < 0) {
       return this.renderPlanForm();
     } else if(this.state.toggledPlan > 0) {
       return this.renderPlanDetails()
@@ -43,7 +32,7 @@ export default class PlansContainer extends React.Component {
   }
 
   renderPlanDetails = () => {
-    return <PlanDetailsContainer plan={this.findToggledPlan()} joinedStatus={this.state.joinedStatus} findAndLeavePlan={this.findAndLeaveUserPlan}/>
+    return <PlanDetailsContainer toggledPlan={this.state.toggledPlan} joinedStatus={this.state.joinedStatus} findAndLeavePlan={this.findAndLeaveUserPlan} renderPlans={this.renderPlans}/>
   }
 
   componentDidMount() {
@@ -67,7 +56,6 @@ export default class PlansContainer extends React.Component {
     .then(json => this.setState({ myPlans: json }))
   }
 
-
   viewPlanDetails = (planId, planJoinedStatus) => {
     if (this.state.toggledPlan !== planId){
       this.props.setToggled(planId)
@@ -76,10 +64,6 @@ export default class PlansContainer extends React.Component {
       this.props.setToggled(0)
       this.setState({ joinedStatus: "" })
     }
-  }
-
-  findToggledPlan = () => {
-    return this.state.allPlans.find( plan => plan.id === parseInt(this.state.toggledPlan, 10) )
   }
 
   findAndLeaveUserPlan = () => {
@@ -104,8 +88,6 @@ export default class PlansContainer extends React.Component {
     const options = {
       method: "DELETE"
     }
-    console.log(this.state)
-    debugger
     fetch(`http://localhost:3000/api/v1/user_plans/${json}`, options)
     .then(res => this.setState({toggledPlan: 0, joinedStatus: ""}))
     .then(res => this.renderPlans())

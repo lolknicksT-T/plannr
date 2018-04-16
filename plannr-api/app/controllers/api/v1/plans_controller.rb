@@ -6,6 +6,10 @@ module Api::V1
     end
 
     def show
+      @plan = Plan.find(params[:id])
+      joined_users = UserPlan.select{|userplan| userplan.plan_id == @plan.id}
+      @joined_usernames = joined_users.map{|userplan| User.find(userplan.user_id).username}
+      render json: {plan: @plan, joined_users: @joined_usernames}
     end
 
     def create
