@@ -108,8 +108,7 @@ export default class PlansContainer extends React.Component {
     debugger
     fetch(`http://localhost:3000/api/v1/user_plans/${json}`, options)
     .then(res => this.setState({toggledPlan: 0, joinedStatus: ""}))
-    .then(res => this.renderPlans() )
-
+    .then(res => this.renderPlans())
   }
 
   render() {

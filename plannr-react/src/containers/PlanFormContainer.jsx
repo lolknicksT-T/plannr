@@ -116,7 +116,7 @@ export default class PlanFormContainer extends React.Component {
     console.log(this.state);
     return(
       <div className='planform'>
-
+        <form onSubmit={this.handleSubmit}>
           <label>Plan Name</label>
           <input type='text' name='planName' value ={this.state.planName}
             onChange={this.updateFormData} placeholder='Plan Name'></input>
@@ -126,7 +126,7 @@ export default class PlanFormContainer extends React.Component {
           <input type='text' name='location' placeholder="Location" value={this.state.location} onChange={this.updateFormData}></input>
           <DateTimePicker onChange={this.updateTime} value={this.state.date} />
           <input type='submit'></input>
-
+        </form>
       </div>
     )
   }
