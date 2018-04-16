@@ -2,7 +2,8 @@ module Api::V1
   class PlansController < ApplicationController
 
     def index
-      render json: Plan.select{|plan| plan.date_time > DateTime.now}
+      @plans = Plan.select{|plan| plan.date_time > DateTime.now}
+      render json: @plans
     end
 
     def show

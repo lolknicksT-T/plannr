@@ -15,7 +15,7 @@ export default class PlansContainer extends React.Component {
       return this.renderNewPlanForm();
     } else if (this.props.toggledView === "edit") {
       return this.renderEditPlanForm();
-    } else if(this.props.toggledView === "detail") {
+    } else if(this.props.toggledView === "detail" && this.props.toggledPlan > 0 ) {
       return this.renderPlanDetails()
     }
   }
@@ -29,7 +29,7 @@ export default class PlansContainer extends React.Component {
   }
 
   renderPlanDetails = () => {
-    return <PlanDetailsContainer toggledPlan={this.props.toggledPlan} findAndLeavePlan={this.findAndLeaveUserPlan} />
+    return <PlanDetailsContainer allPlans={this.props.allPlans} myPlans={this.props.myPlans} toggledView={this.props.toggledView} toggledPlan={this.props.toggledPlan} findAndLeavePlan={this.findAndLeaveUserPlan} />
   }
 
   findAndLeaveUserPlan = () => {

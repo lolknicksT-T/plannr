@@ -1,11 +1,7 @@
 import React from 'react'
 
 export default class Plan extends React.Component {
-
-  state = {
-    joined: ""
-  }
-
+  
   onJoinPlan = (e) => {
     const options = {
       method: "POST",
@@ -20,17 +16,17 @@ export default class Plan extends React.Component {
     }
     fetch('http://localhost:3000/api/v1/user_plans', options)
     .then(res => res.json())
-    .then(json => this.setToggled("detail", json.plan_id))
+    .then(json => this.props.setToggled("detail", json.plan_id))
   }
 
   setToggled = (e) => {
-    this.props.setToggled("detail", e.target.dataset.planid)
+    this.props.setToggled("detail", e.target.parentNode.dataset.planid)
   }
 
   render() {
     return (
-      <div data-planid={this.props.plan.id} onClick={this.setToggled}>
-        {this.props.plan.title}
+      <div data-planid={this.props.plan.id} >
+        <span onClick={this.setToggled}>{this.props.plan.title }</span>
         {this.props.joined == true ? null : <button onClick={this.onJoinPlan}> Join </button>}
       </div>
     )

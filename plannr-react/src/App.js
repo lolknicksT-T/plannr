@@ -19,30 +19,40 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.user) {
-      this.setState({ user_id: JSON.parse(localStorage.user)}, this.fetchPlans )
+    if (localStorage.user !== "") {
+      this.setState({ user_id: JSON.parse(localStorage.user)}, () => this.fetchPlans(this.state) )
     }
   }
 
-  fetchPlans = () => {
-    this.fetchAllPlans()
-    this.fetchPastPlans()
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.state.user_id !== nextState.user_id || this.state.toggledView !== nextState.toggledView || this.state.toggledPlan !== nextState.toggledPlan) {
+  //     return true
+  //   }
+  // }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   this.fetchPlans(prevState)
+  // }
+
+  fetchPlans = (state) => {
+    this.fetchAllPlans(state)
+    this.fetchPastPlans(state)
   }
 
-  fetchAllPlans = () => {
+  fetchAllPlans = (state) => {
     fetch('http://localhost:3000/api/v1/plans')
     .then(res => res.json())
-    .then(json => this.setState({ allPlans: json }, this.fetchMyPlans))
+    .then(json => this.setState({ allPlans: json }, () => this.fetchMyPlans(state)))
   }
 
-  fetchMyPlans = () => {
-    fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}/my_plans`)
+  fetchMyPlans = (state) => {
+    fetch(`http://localhost:3000/api/v1/users/${state.user_id}/my_plans`)
     .then(res => res.json())
-    .then(json => this.setState({ myPlans: json }, this.notJoinedPlans ))
+    .then(json => this.setState({ myPlans: json }, () => this.notJoinedPlans() ))
   }
 
-  fetchPastPlans = () => {
-    fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}/past_plans`)
+  fetchPastPlans = (state) => {
+    fetch(`http://localhost:3000/api/v1/users/${state.user_id}/past_plans`)
     .then(res => res.json())
     .then(json => this.setState({ pastPlans: json }))
   }
@@ -72,7 +82,8 @@ class App extends Component {
   }
 
   setToggled = (view, plan) => {
-    this.state.toggledView === view ? this.setState({ toggledView: "none", toggledPlan: 0 }, () => console.log(this.state)) : this.setState({ toggledView: view, toggledPlan: plan }, () => console.log(this.state))
+    console.log(this.state)
+    this.state.toggledPlan === parseInt(plan, 10) ? this.setState({ toggledView: "none", toggledPlan: 0 }) : this.setState({ toggledView: view, toggledPlan: plan })
   }
 
   render() {

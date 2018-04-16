@@ -10,21 +10,42 @@ export default class PlanDetailsContainer extends React.Component {
 
   state = {
     plan: "",
-    joined_users: [],
-    joinedStatus: this.props.joinedStatus
+    joined_users: "",
+    joinedStatus: ""
   }
 
   componentDidMount() {
-    this.getPlanAndJoinedUsers()
+    this.getPlanAndJoinedUsers(this.props)
+    this.getJoinedStatus()
   }
 
-  getPlanAndJoinedUsers = () => {
-    fetch(`http://localhost:3000/api/v1/plans/${parseInt(this.props.toggledPlan, 10)}`)
+  componentWillReceiveProps(nextProps) {
+    this.getPlanAndJoinedUsers(nextProps)
+    this.getJoinedStatus()
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // console.log(this.props);
+    // console.log(nextProps);
+    // console.log(this.state);
+    // console.log(nextState);
+    if (nextState.plan !== this.state.plan || nextProps.toggledView !== this.props.toggledView || nextProps.toggledPlan !== this.props.toggledPlan) {
+      return true
+    }
+  }
+
+  getPlanAndJoinedUsers = (props) => {
+    fetch(`http://localhost:3000/api/v1/plans/${parseInt(props.toggledPlan, 10)}`)
     .then(res => res.json())
     .then(json => this.setState({
       plan: json.plan,
       joined_users: json.joined_users
-    }))
+    }, () => console.log(this.state)))
+  }
+
+  getJoinedStatus = () => {
+    let myPlans = this.props.myPlans.map( plan => plan.id )
+    myPlans.includes(parseInt(this.props.toggledPlan)) ? this.setState({ joinedStatus: true }) : null
   }
 
   renderDeleteOrLeaveButon = () => {
