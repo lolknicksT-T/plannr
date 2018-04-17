@@ -13,7 +13,7 @@ export default class AllPlansContainer extends React.Component {
 
   notJoinedPlan = (plan) => {
     return (
-      <Plan key={plan.id} plan={plan} joined={false} setToggled={this.props.setToggled} />
+      <Plan key={plan.id} plan={plan} joined={false} setToggled={this.props.setToggled} pushJoinedPlans={this.props.pushJoinedPlans}/>
     )
   }
 

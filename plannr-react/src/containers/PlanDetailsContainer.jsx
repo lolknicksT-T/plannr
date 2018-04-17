@@ -12,13 +12,13 @@ export default class PlanDetailsContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.getPlanAndJoinedUsers(this.props)
     this.getJoinedStatus()
+    this.getPlanAndJoinedUsers(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
-    this.getPlanAndJoinedUsers(nextProps)
     this.getJoinedStatus()
+    this.getPlanAndJoinedUsers(nextProps)
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -44,7 +44,8 @@ export default class PlanDetailsContainer extends React.Component {
 
   getJoinedStatus = () => {
     let myPlans = this.props.myPlans.map( plan => plan.id )
-    myPlans.includes(parseInt(this.props.toggledPlan)) ? this.setState({ joinedStatus: true }) : null
+    debugger
+    myPlans.includes(parseInt(this.props.toggledPlan)) ? this.setState({ joinedStatus: true }, () => console.log(this.state)) : this.setState({ joinedStatus: false }, () => console.log(this.state))
   }
 
   renderDeleteOrLeaveButon = () => {
@@ -73,7 +74,10 @@ export default class PlanDetailsContainer extends React.Component {
     }
     fetch('http://localhost:3000/api/v1/user_plans', options)
     .then(res => res.json())
-    .then(json => this.props.setToggled("detail", json.plan_id))
+    .then(json => {
+      this.props.setToggled("detail", json.plan_id)
+      this.props.pushJoinedPlans(json)
+    })
   }
 
   joinedUsers = () => {

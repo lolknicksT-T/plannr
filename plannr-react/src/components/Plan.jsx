@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default class Plan extends React.Component {
-  
+
   onJoinPlan = (e) => {
     const options = {
       method: "POST",
@@ -16,7 +16,10 @@ export default class Plan extends React.Component {
     }
     fetch('http://localhost:3000/api/v1/user_plans', options)
     .then(res => res.json())
-    .then(json => this.props.setToggled("detail", json.plan_id))
+    .then(json => {
+      this.props.setToggled("detail", json.plan_id)
+      this.props.pushJoinedPlans(json)
+    })
   }
 
   setToggled = (e) => {

@@ -60,11 +60,14 @@ class App extends Component {
   notJoinedPlans = () => {
     let notJoined = []
     if (this.state.myPlans.length === 0) {
-      this.setState({notJoinedPlans: this.state.allPlans})
+      notJoined = this.state.allPlans
+      this.setState({notJoinedPlans: notJoined})
     } else if (this.state.allPlans.length > 0 && this.state.myPlans.length > 0) {
-      this.state.allPlans.map( plan => plan.id).forEach( planId => {
-        if(!this.state.myPlans.map( plan => plan.id ).includes(planId)) {
-          notJoined.push(this.state.allPlans[planId - 1])
+      let allPlans = this.state.allPlans
+      let myPlans = this.state.myPlans
+      allPlans.map( plan => plan.id).forEach( planId => {
+        if(!myPlans.map( plan => plan.id ).includes(planId)) {
+          notJoined.push(allPlans[planId - 1])
         }
       })
       this.setState({notJoinedPlans: notJoined}, () => console.log(this.state))
@@ -82,12 +85,24 @@ class App extends Component {
   }
 
   setToggled = (view, plan) => {
-    console.log(this.state)
     if (this.state.toggledView === view && this.state.toggledPlan === plan) {
       this.setState({ toggledView: "none", toggledPlan: 0})
     } else {
-      this.setState({ toggledView: view, toggledPlan: plan})
+      this.setState({ toggledView: view, toggledPlan: plan}, () => {
+        console.log(this.state)
+        debugger
+      })
     }
+  }
+
+  pushJoinedPlans = (plan) => {
+    let njpIndex = this.state.notJoinedPlans.findIndex( njp => njp.id === plan.plan_id)
+    this.setState({ myPlans: [...this.state.myPlans, this.state.notJoinedPlans.splice(njpIndex, 1)[0]] }, () => console.log(this.state))
+  }
+
+  pushNotJoinedPlans = (plan) => {
+    let jpIndex = this.state.myPlans.findIndex( jp => jp.id === plan.plan_id)
+    this.setState({ notJoinedPlans: [...this.state.notJoinedPlans, this.state.myPlans.splice(jpIndex, 1)[0]] }, () => console.log(this.state))
   }
 
   render() {
@@ -99,11 +114,23 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
           </header>
           {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <LoggedInNavbar logout={this.logout} setToggled={this.setToggled}/> }
-          {this.state.user_id ? <PlansContainer user_id={this.state.user_id} setToggled={this.setToggled} toggledView={this.state.toggledView} toggledPlan={this.state.toggledPlan} allPlans={this.state.allPlans} myPlans={this.state.myPlans} pastPlans={this.state.pastPlans} notJoinedPlans={this.state.notJoinedPlans} /> : null}
+          {this.state.user_id ?
+            <PlansContainer
+              user_id={this.state.user_id}
+              setToggled={this.setToggled}
+              toggledView={this.state.toggledView}
+              toggledPlan={this.state.toggledPlan}
+              allPlans={this.state.allPlans}
+              myPlans={this.state.myPlans}
+              pastPlans={this.state.pastPlans}
+              notJoinedPlans={this.state.notJoinedPlans}
+              pushJoinedPlans={this.pushJoinedPlans}
+              pushNotJoinedPlans={this.pushNotJoinedPlans} />
+          : null}
 
           <Switch>
 
-        <Route exact path='/duh' component ={ PlansContainer } />
+            <Route exact path='/duh' component ={ PlansContainer } />
 
 
       </Switch>

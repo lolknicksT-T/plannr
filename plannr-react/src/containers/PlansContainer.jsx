@@ -22,7 +22,10 @@ export default class PlansContainer extends React.Component {
 
     fetch(`http://localhost:3000/api/v1/user_plans/find`, options)
     .then(res => res.json())
-    .then(json => this.deleteUserPlan(json))
+    .then(json => {
+      this.deleteUserPlan(json)
+      this.props.pushNotJoinedPlans(json)
+    })
   }
 
   deleteUserPlan = (json) => {
@@ -54,7 +57,14 @@ export default class PlansContainer extends React.Component {
   }
 
   renderPlanDetails = () => {
-    return <PlanDetailsContainer allPlans={this.props.allPlans} myPlans={this.props.myPlans} toggledView={this.props.toggledView} toggledPlan={this.props.toggledPlan} findAndLeavePlan={this.findAndLeaveUserPlan} setToggled={this.props.setToggled}/>
+    return <PlanDetailsContainer
+      allPlans={this.props.allPlans}
+      myPlans={this.props.myPlans}
+      toggledView={this.props.toggledView}
+      toggledPlan={this.props.toggledPlan}
+      findAndLeavePlan={this.findAndLeaveUserPlan}
+      setToggled={this.props.setToggled}
+      pushJoinedPlans={this.props.pushJoinedPlans} />
   }
 
 
@@ -66,7 +76,7 @@ export default class PlansContainer extends React.Component {
           {<MyPlansContainer myPlans={this.props.myPlans} setToggled={this.props.setToggled} />}
           <br/>
           All Plans:
-          {<AllPlansContainer myPlans={this.props.myPlans} allPlans={this.props.allPlans} notJoinedPlans={this.props.notJoinedPlans} setToggled={this.props.setToggled} />}
+          {<AllPlansContainer myPlans={this.props.myPlans} allPlans={this.props.allPlans} notJoinedPlans={this.props.notJoinedPlans} setToggled={this.props.setToggled} pushJoinedPlans={this.props.pushJoinedPlans} />}
           <br />
         </div>
         {this.renderSideBarContent()}

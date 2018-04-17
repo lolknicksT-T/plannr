@@ -90,7 +90,6 @@ export default class PlanFormContainer extends React.Component {
       if (json.errors){
         this.setState({errors: json.errors})
       } else {
-        debugger
         this.props.setToggled("detail", json.id)
       }
     })
