@@ -2,6 +2,8 @@ import React from 'react'
 
 import Plan from '../components/Plan'
 
+import {Card} from 'semantic-ui-react'
+
 class MyPlansContainer extends React.Component {
 
   renderMyPlans = () => {
@@ -10,9 +12,9 @@ class MyPlansContainer extends React.Component {
 
   render() {
     return (
-      <div>
+      <Card.Group centered itemsPerRow={4}>
         {Array.isArray(this.props.myPlans) ? this.renderMyPlans() : null}
-      </div>
+      </Card.Group>
     )
   }
 }

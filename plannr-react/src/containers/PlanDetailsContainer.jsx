@@ -2,6 +2,7 @@ import React from 'react'
 
 import JoinedUser from '../components/JoinedUser'
 import Conversation from './Conversation'
+import { Button } from 'semantic-ui-react'
 
 export default class PlanDetailsContainer extends React.Component {
 
@@ -52,7 +53,7 @@ export default class PlanDetailsContainer extends React.Component {
       if (parseInt(localStorage.user) === this.state.plan.admin_id) {
         return <button>Edit Plan</button>
       } else if (this.state.joinedStatus) {
-        return <button onClick={this.props.findAndLeavePlan}>Leave Plan</button>
+        return <Button className='ui big red button' onClick={this.props.findAndLeavePlan}>Leave Plan</Button>
       } else {
         return null
       }
@@ -86,13 +87,16 @@ export default class PlanDetailsContainer extends React.Component {
   }
 
   render() {
+    console.log(this.state);
+    debugger
     return(
-      <div style={{"float": "right"}}>
+      <div style={{padding: "20px 0px"}}>
         <h3>Plan Details: </h3>
         {this.renderDeleteOrLeaveButon()}
         <h3>{this.state.plan.title}</h3>
         <p>{this.state.plan.description}</p>
-        <h4>{this.state.plan.location} @ {this.state.plan.date_time}</h4>
+        <h4>{this.state.plan.location} @ {Date(this.state.plan.date_time).slice(0, 21)
+        }</h4>
         <ul>Joined Users: {this.joinedUsers()}</ul>
         {this.state.joinedStatus ? <Conversation planId={this.state.plan.id} /> : <button onClick={this.onJoinPlan}>Join to view Conversation</button>}
       </div>

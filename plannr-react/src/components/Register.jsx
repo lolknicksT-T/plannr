@@ -1,4 +1,5 @@
 import React from 'react'
+import { Form, Button } from 'semantic-ui-react'
 
 export default class Register extends React.Component {
   state = {
@@ -47,14 +48,17 @@ export default class Register extends React.Component {
   render() {
     return (
       <div className="register">
-        <h3>Register</h3>
-        <form onSubmit={this.handleSubmit}>
-          <label /> Username:
-          <input onChange= {this.handleChange} type="text" name="username"/>
-          <label /> Password:
-          <input onChange= {this.handleChange} type="password" name="password"/>
-          <input type="submit"/>
-        </form>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Field>
+            <label /> Username:
+            <input onChange= {this.handleChange} type="text" name="username"/>
+          </Form.Field>
+          <Form.Field>
+            <label /> Password:
+            <input onChange= {this.handleChange} type="password" name="password"/>
+          </Form.Field>
+          <Button type="submit">Register</Button>
+        </Form>
       </div>
     )
   }

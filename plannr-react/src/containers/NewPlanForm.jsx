@@ -1,5 +1,13 @@
 import React from 'react'
-import DateTimePicker from 'react-datetime-picker'
+// import DateTimePicker from 'react-datetime-picker'
+// import Calendar from 'rc-calendar';
+
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
+
+import {Form, Button} from 'semantic-ui-react'
 
 export default class PlanFormContainer extends React.Component {
 
@@ -7,7 +15,7 @@ export default class PlanFormContainer extends React.Component {
     planName: "",
     description: "",
     location: "",
-    date: new Date(),
+    date: moment(),
     errors: []
   }
 
@@ -39,6 +47,8 @@ export default class PlanFormContainer extends React.Component {
         this.setState({errors: json.errors})
       } else {
         this.createNewUserPlan(json.id)
+        this.props.setToggled("detail", json.id)
+        this.props.addNewPlan(json)
         this.createNewConversation(json)
       }
     })
@@ -85,14 +95,6 @@ export default class PlanFormContainer extends React.Component {
     }
 
     fetch(`http://localhost:3000/api/v1/conversations`, options)
-    .then(res => res.json())
-    .then(json => {
-      if (json.errors){
-        this.setState({errors: json.errors})
-      } else {
-        this.props.setToggled("detail", json.id)
-      }
-    })
   }
 
 
@@ -103,7 +105,13 @@ export default class PlanFormContainer extends React.Component {
     // this.props.function(this.state)
   }
 
-  updateTime = date => this.setState({ date })
+  updateTime = date => {
+    let options = {
+      year: 'numeric', month: 'numeric', day: 'numeric',
+      hour: 'numeric', minute: 'numeric',
+    };
+    let dateFormatted = Intl.DateTimeFormat('en-US', options).format(date)
+    this.setState({ date: dateFormatted })}
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -113,17 +121,30 @@ export default class PlanFormContainer extends React.Component {
   render(){
     return(
       <div className='planform'>
-        <form onSubmit={this.handleSubmit}>
-          <label>Plan Name</label>
-          <input type='text' name='planName' value ={this.state.planName}
-            onChange={this.updateFormData} placeholder='Plan Name'></input>
-          <label>Description</label>
-          <input type='text' name='description' placeholder='Description'
-            value={this.state.description} onChange={this.updateFormData}></input>
-          <input type='text' name='location' placeholder="Location" value={this.state.location} onChange={this.updateFormData}></input>
-          <DateTimePicker onChange={this.updateTime} value={this.state.date} />
-          <input type='submit'></input>
-        </form>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group>
+            <Form.Input type='text' label="Plan Name" name='planName' value ={this.state.planName} onChange={this.updateFormData} ></Form.Input>
+          </Form.Group>
+          <Form.Group>
+            <Form.Input type='text' label="Description" name='description' value={this.state.description} onChange={this.updateFormData}></Form.Input>
+          </Form.Group>
+          <Form.Group>
+            <Form.Input type='text' label="Location" name='location' value={this.state.location} onChange={this.updateFormData}></Form.Input>
+          </Form.Group>
+          <Form.Group>
+            <DatePicker
+              selected={this.state.date}
+              onChange={this.updateTime}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="LLL"
+              timeCaption="time"
+            />
+            {/* <DateTimePicker onChange={this.updateTime} value={this.state.date} /> */}
+          </Form.Group>
+          <Button type='submit'>Submit</Button>
+        </Form>
       </div>
     )
   }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
+import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import logo from './logo.svg';
-import './App.css';
 
 import Navbar from './containers/Navbar'
 import LoggedInNavbar from './containers/LoggedInNavbar'
@@ -65,17 +64,20 @@ class App extends Component {
     } else if (this.state.allPlans.length > 0 && this.state.myPlans.length > 0) {
       let allPlans = this.state.allPlans
       let myPlans = this.state.myPlans
-      allPlans.map( plan => plan.id).forEach( planId => {
-        if(!myPlans.map( plan => plan.id ).includes(planId)) {
-          notJoined.push(allPlans[planId - 1])
+      let allPlansIds = allPlans.map( plan => plan.id )
+      let myPlansIds = myPlans.map( plan => plan.id )
+
+      for(let i = 0; i < allPlansIds.length; i++) {
+        if(!myPlansIds.includes(allPlansIds[i])) {
+          notJoined.push(allPlans[i])
         }
-      })
+      }
       this.setState({notJoinedPlans: notJoined})
     }
   }
 
   setUser = (json) => {
-    this.setState({ user_id: json.id })
+    this.setState({ user_id: json.id }, () => this.fetchPlans(this.state))
     localStorage.user = JSON.stringify(json.id);
   }
 
@@ -102,13 +104,20 @@ class App extends Component {
     this.setState({ notJoinedPlans: [...this.state.notJoinedPlans, this.state.myPlans.splice(jpIndex, 1)[0]] })
   }
 
+  addNewPlan = (plan) => {
+    this.setState({
+      myPlans: [...this.state.myPlans, plan],
+      allPlans: [...this.state.allPlans, plan]
+    })
+  }
+
   render() {
     return (
 
       <BrowserRouter>
         <div className="App">
           <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
+
           </header>
           {!this.state.user_id ? <Navbar setUser={this.setUser} /> : <LoggedInNavbar logout={this.logout} setToggled={this.setToggled}/> }
           {this.state.user_id ?
@@ -122,7 +131,7 @@ class App extends Component {
               pastPlans={this.state.pastPlans}
               notJoinedPlans={this.state.notJoinedPlans}
               pushJoinedPlans={this.pushJoinedPlans}
-              pushNotJoinedPlans={this.pushNotJoinedPlans} />
+              pushNotJoinedPlans={this.pushNotJoinedPlans} addNewPlan={this.addNewPlan}/>
           : null}
 
           <Switch>

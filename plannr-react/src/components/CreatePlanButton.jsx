@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { Menu } from 'semantic-ui-react'
 
 export default class CreatePlanButton extends React.Component {
 
@@ -8,9 +10,9 @@ export default class CreatePlanButton extends React.Component {
 
   render() {
     return(
-      <div>
-        <button onClick={this.onNewPlan}>Make a Plan</button>
-      </div>
+      <Menu.Item position="left">
+        <Link onClick={this.onNewPlan} to="#">Make a Plan</Link>
+      </Menu.Item>
     )
   }
 }

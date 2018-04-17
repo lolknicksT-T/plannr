@@ -6,6 +6,8 @@ import PlanDetailsContainer from './PlanDetailsContainer'
 import NewPlanForm from './NewPlanForm'
 // import EditPlanForm from './EditPlanForm'
 
+import { Container, Header, Grid } from 'semantic-ui-react'
+
 export default class PlansContainer extends React.Component {
   findAndLeaveUserPlan = () => {
     const options = {
@@ -49,7 +51,7 @@ export default class PlansContainer extends React.Component {
   }
 
   renderNewPlanForm = () => {
-    return <NewPlanForm setToggled={this.props.setToggled} />
+    return <Grid.Column style={{width: "30%", float: "right"}}><NewPlanForm setToggled={this.props.setToggled} addNewPlan={this.props.addNewPlan}/></Grid.Column>
   }
 
   renderEditPlanForm = () => {
@@ -57,29 +59,38 @@ export default class PlansContainer extends React.Component {
   }
 
   renderPlanDetails = () => {
-    return <PlanDetailsContainer
+    return <Grid.Column style={{width: "30%", float: "right", marginRight: "-200px"}}><PlanDetailsContainer
       allPlans={this.props.allPlans}
       myPlans={this.props.myPlans}
       toggledView={this.props.toggledView}
       toggledPlan={this.props.toggledPlan}
       findAndLeavePlan={this.findAndLeaveUserPlan}
       setToggled={this.props.setToggled}
-      pushJoinedPlans={this.props.pushJoinedPlans} />
+      pushJoinedPlans={this.props.pushJoinedPlans} /></Grid.Column>
   }
 
 
   render() {
     return (
-      <div>
-        <div style={ this.props.toggledView === "none" ? null : {"float":"left"} }>
-          My Plans:
-          {<MyPlansContainer myPlans={this.props.myPlans} setToggled={this.props.setToggled} />}
-          <br/>
-          All Plans:
-          {<AllPlansContainer myPlans={this.props.myPlans} allPlans={this.props.allPlans} notJoinedPlans={this.props.notJoinedPlans} setToggled={this.props.setToggled} pushJoinedPlans={this.props.pushJoinedPlans} />}
-          <br />
-        </div>
-        {this.renderSideBarContent()}
+      <div className="">
+        {/* <div className={ this.props.toggledView === "none" ? null : {"float":"left"} }> */}
+        <Grid textAlign="center" columns={this.props.toggledView === "none" ? 1 : 2} >
+          <Grid.Column>
+            <Grid columns={this.props.toggledView === "none" ? 4 : 3}>
+              <Container style={{"minHeight": "50px", "padding":"20px"}}>
+                <Header>My Plans:</Header>
+                {<MyPlansContainer myPlans={this.props.myPlans} setToggled={this.props.setToggled} />}
+              </Container>
+              <Container style={{padding: "20px"}}>
+                <Header>Plans:</Header>
+                {<AllPlansContainer myPlans={this.props.myPlans} allPlans={this.props.allPlans} notJoinedPlans={this.props.notJoinedPlans} setToggled={this.props.setToggled} pushJoinedPlans={this.props.pushJoinedPlans} />}
+              </Container>
+            </Grid>
+          </Grid.Column>
+
+          {this.renderSideBarContent()}
+          {/* </div> */}
+          </Grid>
       </div>
     )
   }
