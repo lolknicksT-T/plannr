@@ -2,10 +2,6 @@ import React from 'react'
 import { ActionCable } from 'react-actioncable-provider';
 import Cable from '../components/Cable';
 import MessagesArea from '../components/MessagesArea';
-// import NewMessageForm from '../components/NewMessagesForm';
-
-// import User from '../components/User'
-// import Message from '../components/Message'
 
 export default class Conversation extends React.Component {
   state = {

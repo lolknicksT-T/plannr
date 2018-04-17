@@ -83,7 +83,11 @@ class App extends Component {
 
   setToggled = (view, plan) => {
     console.log(this.state)
-    this.state.toggledPlan === parseInt(plan, 10) ? this.setState({ toggledView: "none", toggledPlan: 0 }) : this.setState({ toggledView: view, toggledPlan: plan })
+    if (this.state.toggledView === view && this.state.toggledPlan === plan) {
+      this.setState({ toggledView: "none", toggledPlan: 0})
+    } else {
+      this.setState({ toggledView: view, toggledPlan: plan})
+    }
   }
 
   render() {

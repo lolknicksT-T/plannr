@@ -1,6 +1,5 @@
 import React from 'react';
 import NewMessageForm from './NewMessageForm';
-import PreviousMessages from './PreviousMessages'
 
 const MessagesArea = ({
   conversation: { id, title, messages },

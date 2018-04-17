@@ -11,20 +11,18 @@ export default class EditPlanForm extends React.Component {
     errors: []
   }
 
-
-  createNewPlan = () => {
+  editPlan = () => {
     let data = {
       plan: {
         title: this.state.planName,
         description: this.state.description,
         location: this.state.location,
-        date_time: this.state.date,
-        admin_id: parseInt(localStorage.user)
+        date_time: this.state.date
       }
     }
 
     const options = {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -38,45 +36,19 @@ export default class EditPlanForm extends React.Component {
       if (json.errors){
         this.setState({errors: json.errors})
       } else {
-        this.createNewUserPlan(json.id)
-        this.createNewConversation(json)
+        this.editConversation(json)
       }
     })
   }
 
-  createNewUserPlan = (json) => {
-    let data = {
-      user_id: parseInt(localStorage.user),
-      plan_id: json
-    }
-
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(data)
-    }
-
-
-    fetch('http://localhost:3000/api/v1/user_plans', options)
-    .then(res => res.json())
-    .then(json => {
-      if (json.errors){
-        this.setState({errors: json.errors})
-      }
-    })
-  }
-
-  createNewConversation = (json) => {
+  editConversation = (json) => {
     let data = {
       title: json.title,
       plan_id: json.id
     }
 
     const options = {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"

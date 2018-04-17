@@ -7,31 +7,6 @@ import NewPlanForm from './NewPlanForm'
 // import EditPlanForm from './EditPlanForm'
 
 export default class PlansContainer extends React.Component {
-
-  renderSideBarContent = () => {
-    if (this.props.toggledView === "none") {
-      return null;
-    } else if (this.props.toggledView === "new") {
-      return this.renderNewPlanForm();
-    } else if (this.props.toggledView === "edit") {
-      return this.renderEditPlanForm();
-    } else if(this.props.toggledView === "detail" && this.props.toggledPlan > 0 ) {
-      return this.renderPlanDetails()
-    }
-  }
-
-  renderNewPlanForm = () => {
-    return <NewPlanForm refetchMyPlans={this.fetchMyPlans} refetchAllPlans={this.fetchAllPlans} />
-  }
-
-  renderEditPlanForm = () => {
-
-  }
-
-  renderPlanDetails = () => {
-    return <PlanDetailsContainer allPlans={this.props.allPlans} myPlans={this.props.myPlans} toggledView={this.props.toggledView} toggledPlan={this.props.toggledPlan} findAndLeavePlan={this.findAndLeaveUserPlan} setToggled={this.props.setToggled}/>
-  }
-
   findAndLeaveUserPlan = () => {
     const options = {
       method: "POST",
@@ -58,10 +33,35 @@ export default class PlansContainer extends React.Component {
     .then(res => this.props.setToggled("none", 0))
   }
 
+  renderSideBarContent = () => {
+    if (this.props.toggledView === "none") {
+      return null;
+    } else if (this.props.toggledView === "new") {
+      return this.renderNewPlanForm();
+    } else if (this.props.toggledView === "edit") {
+      return this.renderEditPlanForm();
+    } else if(this.props.toggledView === "detail" && this.props.toggledPlan > 0 ) {
+      return this.renderPlanDetails()
+    }
+  }
+
+  renderNewPlanForm = () => {
+    return <NewPlanForm setToggled={this.props.setToggled} />
+  }
+
+  renderEditPlanForm = () => {
+
+  }
+
+  renderPlanDetails = () => {
+    return <PlanDetailsContainer allPlans={this.props.allPlans} myPlans={this.props.myPlans} toggledView={this.props.toggledView} toggledPlan={this.props.toggledPlan} findAndLeavePlan={this.findAndLeaveUserPlan} setToggled={this.props.setToggled}/>
+  }
+
+
   render() {
     return (
       <div>
-        <div style={ this.props.toggledPlan !== 0 ? {"float":"left"} : null}>
+        <div style={ this.props.toggledView === "none" ? null : {"float":"left"} }>
           My Plans:
           {<MyPlansContainer myPlans={this.props.myPlans} setToggled={this.props.setToggled} />}
           <br/>
