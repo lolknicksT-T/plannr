@@ -12,12 +12,12 @@ export default class PlanDetailsContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.getJoinedStatus()
+    this.getJoinedStatus(this.props)
     this.getPlanAndJoinedUsers(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
-    this.getJoinedStatus()
+    this.getJoinedStatus(nextProps)
     this.getPlanAndJoinedUsers(nextProps)
   }
 
@@ -39,13 +39,12 @@ export default class PlanDetailsContainer extends React.Component {
     .then(json => this.setState({
       plan: json.plan,
       joined_users: json.joined_users
-    }, () => console.log(this.state)))
+    }))
   }
 
-  getJoinedStatus = () => {
-    let myPlans = this.props.myPlans.map( plan => plan.id )
-    debugger
-    myPlans.includes(parseInt(this.props.toggledPlan)) ? this.setState({ joinedStatus: true }, () => console.log(this.state)) : this.setState({ joinedStatus: false }, () => console.log(this.state))
+  getJoinedStatus = (props) => {
+    let myPlans = props.myPlans.map( plan => plan.id )
+    myPlans.includes(parseInt(props.toggledPlan)) ? this.setState({ joinedStatus: true }) : this.setState({ joinedStatus: false })
   }
 
   renderDeleteOrLeaveButon = () => {

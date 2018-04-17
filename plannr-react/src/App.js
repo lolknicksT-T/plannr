@@ -70,7 +70,7 @@ class App extends Component {
           notJoined.push(allPlans[planId - 1])
         }
       })
-      this.setState({notJoinedPlans: notJoined}, () => console.log(this.state))
+      this.setState({notJoinedPlans: notJoined})
     }
   }
 
@@ -88,21 +88,18 @@ class App extends Component {
     if (this.state.toggledView === view && this.state.toggledPlan === plan) {
       this.setState({ toggledView: "none", toggledPlan: 0})
     } else {
-      this.setState({ toggledView: view, toggledPlan: plan}, () => {
-        console.log(this.state)
-        debugger
-      })
+      this.setState({ toggledView: view, toggledPlan: plan})
     }
   }
 
   pushJoinedPlans = (plan) => {
     let njpIndex = this.state.notJoinedPlans.findIndex( njp => njp.id === plan.plan_id)
-    this.setState({ myPlans: [...this.state.myPlans, this.state.notJoinedPlans.splice(njpIndex, 1)[0]] }, () => console.log(this.state))
+    this.setState({ myPlans: [...this.state.myPlans, this.state.notJoinedPlans.splice(njpIndex, 1)[0]] })
   }
 
   pushNotJoinedPlans = (plan) => {
     let jpIndex = this.state.myPlans.findIndex( jp => jp.id === plan.plan_id)
-    this.setState({ notJoinedPlans: [...this.state.notJoinedPlans, this.state.myPlans.splice(jpIndex, 1)[0]] }, () => console.log(this.state))
+    this.setState({ notJoinedPlans: [...this.state.notJoinedPlans, this.state.myPlans.splice(jpIndex, 1)[0]] })
   }
 
   render() {
