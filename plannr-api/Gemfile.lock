@@ -62,7 +62,7 @@ GEM
       dotenv (= 2.2.2)
       railties (>= 3.2, < 6.0)
     erubi (1.7.1)
-    ffi (1.9.23)
+    ffi (1.13.1)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     i18n (1.0.0)
